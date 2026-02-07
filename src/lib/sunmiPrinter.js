@@ -1,112 +1,126 @@
-// Lightweight SUNMI printer wrapper with browser fallback
-export function isSunmiAvailable() {
-  return typeof window !== 'undefined' && !!(window.sunmi && window.sunmi.printer);
+// Capacitor-based SUNMI printer wrapper
+import { Capacitor } from '@capacitor/core';
+
+let SunmiPrinter = null;
+
+async function loadPlugin() {
+  if (!SunmiPrinter && Capacitor.isNativePlatform && Capacitor.isNativePlatform()) {
+    const { registerPlugin } = await import('@capacitor/core');
+    SunmiPrinter = registerPlugin('SunmiPrinter');
+  }
+  return SunmiPrinter;
+}
+
+export async function isSunmiAvailable() {
+  if (!Capacitor.isNativePlatform || !Capacitor.isNativePlatform()) return false;
+  
+  try {
+    const plugin = await loadPlugin();
+    const result = await plugin.isAvailable();
+    return result.available;
+  } catch (err) {
+    console.error('Failed to check SUNMI availability:', err);
+    return false;
+  }
 }
 
 export async function printToken(tokenData = {}) {
-  if (typeof window === 'undefined') return false;
-
-  if (isSunmiAvailable()) {
-    try {
-      const p = window.sunmi.printer;
-      // If native bridge supports raw ESC/POS, prefer sending bytes
-      if (p.sendRaw && typeof p.sendRaw === 'function') {
-        // lazy-load ESC/POS builder to avoid cost in non-escpos flows
-        const { buildReceipt, toBase64 } = await import('./escpos.js');
-        const header = ['AL RAQI UNIVERSITY', 'HOSPITAL', '================================', 'QUEUE TOKEN'];
-        const lines = [
-          `TOKEN NUMBER: ${tokenData.number || ''}`,
-          `Section: ${tokenData.section || '-'}`,
-          `Type: ${tokenData.type || '-'}`,
-          `Fee Paid: ${tokenData.fee || '-'}`,
-          `Date: ${tokenData.date || '-'}`,
-          `Time: ${tokenData.time || '-'}`,
-          `Queue Position: ${tokenData.position || '-'} / ${tokenData.total || '-'}`
-        ];
-        const footer = ['================================', 'INSTRUCTIONS:', 'Please wait for your number', 'Keep this token with you', 'Thank you for choosing AL Raqi University Hospital'];
-        const raw = buildReceipt({ header, lines, footer });
-        const b64 = toBase64(raw);
-        // send base64 blob to native
-        p.sendRaw(b64);
-        return true;
-      }
-      // initialize
-      p.printerInit && p.printerInit();
-
-      // Header
-      p.setAlignment && p.setAlignment(1);
-      p.printTextWithFont && p.printTextWithFont('AL RAQI UNIVERSITY\nHOSPITAL\n', '', 30, true);
-      p.printText && p.printText('================================\n');
-
-      // Title
-      p.printTextWithFont && p.printTextWithFont('QUEUE TOKEN\n\n', '', 24, true);
-
-      // Token number big
-      p.setAlignment && p.setAlignment(1);
-      p.printTextWithFont && p.printTextWithFont((tokenData.number || '') + '\n', '', 60, true);
-      p.printText && p.printText('\n================================\n');
-
-      // Details (left aligned)
-      p.setAlignment && p.setAlignment(0);
-      p.printText && p.printText(`Section: ${tokenData.section || '-'}\n`);
-      p.printText && p.printText(`Type: ${tokenData.type || '-'}\n`);
-      p.printText && p.printText(`Fee Paid: ${tokenData.fee || '-'}\n\n`);
-
-      p.printText && p.printText(`Date: ${tokenData.date || '-'}\n`);
-      p.printText && p.printText(`Time: ${tokenData.time || '-'}\n\n`);
-
-      p.printText && p.printText(`Queue Position: ${tokenData.position || '-'} / ${tokenData.total || '-'}\n\n`);
-
-      p.printText && p.printText('================================\n');
-      p.printText && p.printText('INSTRUCTIONS:\n- Please wait for your number\n- Keep this token with you\n- Listen for announcements\n- If you miss your turn, inform the reception\n\n');
-      p.printText && p.printText('================================\n     Thank you for choosing\n   AL Raqi University Hospital\n\n');
-
-      // Feed and cut
-      p.lineWrap && p.lineWrap(3);
-      p.cutPaper && p.cutPaper();
-
-      return true;
-    } catch (err) {
-      console.error('SUNMI printer error:', err);
-      // fallback to browser print
-      window.print && window.print();
-      return false;
-    }
+  if (!Capacitor.isNativePlatform || !Capacitor.isNativePlatform()) {
+    console.log('Not on native platform, using browser print');
+    window.print && window.print();
+    return false;
   }
-
-  // Not a SUNMI device — fallback
-  window.print && window.print();
-  return false;
-}
-
-// Diagnostic: check native printer status and available methods
-export async function checkPrinterStatus() {
-  if (typeof window === 'undefined') return { available: false };
-  const available = isSunmiAvailable();
-  const result = { available, methods: [] };
-  if (!available) return result;
 
   try {
-    const p = window.sunmi.printer;
-    // list common methods
-    const candidates = ['printerInit','setAlignment','printTextWithFont','printText','lineWrap','cutPaper','printBitmap','printQRCode','sendRaw','getPrinterStatus','getPrinterInfo'];
-    result.methods = candidates.filter(m => typeof p[m] === 'function');
-
-    // try calling getPrinterStatus if available
-    if (typeof p.getPrinterStatus === 'function') {
-      try {
-        const st = p.getPrinterStatus();
-        result.status = st;
-      } catch (e) {
-        // some native methods may be async or require callbacks — ignore errors
-        result.statusError = String(e);
-      }
-    }
+    const plugin = await loadPlugin();
+    
+    // Initialize printer
+    await plugin.printerInit();
+    
+    // Print header
+    await plugin.setAlignment({ alignment: 1 }); // Center
+    await plugin.printTextWithFont({ 
+      text: 'AL RAQI UNIVERSITY\n', 
+      typeface: '', 
+      fontSize: 30 
+    });
+    await plugin.printTextWithFont({ 
+      text: 'HOSPITAL\n', 
+      typeface: '', 
+      fontSize: 30 
+    });
+    await plugin.printText({ text: '================================\n' });
+    
+    // Print title
+    await plugin.printTextWithFont({ 
+      text: 'QUEUE TOKEN\n\n', 
+      typeface: '', 
+      fontSize: 24 
+    });
+    
+    // Print token number
+    await plugin.printTextWithFont({ 
+      text: (tokenData.number || '') + '\n', 
+      typeface: '', 
+      fontSize: 60 
+    });
+    await plugin.printText({ text: '\n================================\n' });
+    
+    // Print details (left aligned)
+    await plugin.setAlignment({ alignment: 0 }); // Left
+    await plugin.printText({ text: `Section: ${tokenData.section || '-'}\n` });
+    await plugin.printText({ text: `Type: ${tokenData.type || '-'}\n` });
+    await plugin.printText({ text: `Fee Paid: ${tokenData.fee || '-'}\n\n` });
+    await plugin.printText({ text: `Date: ${tokenData.date || '-'}\n` });
+    await plugin.printText({ text: `Time: ${tokenData.time || '-'}\n\n` });
+    await plugin.printText({ 
+      text: `Queue Position: ${tokenData.position || '-'} / ${tokenData.total || '-'}\n\n` 
+    });
+    
+    // Print instructions
+    await plugin.printText({ text: '================================\n' });
+    await plugin.printText({ 
+      text: 'INSTRUCTIONS:\n- Please wait for your number\n- Keep this token with you\n- Listen for announcements\n- If you miss your turn, inform the reception\n\n' 
+    });
+    await plugin.printText({ 
+      text: '================================\n     Thank you for choosing\n   AL Raqi University Hospital\n\n' 
+    });
+    
+    // Feed and cut
+    await plugin.lineWrap({ lines: 3 });
+    await plugin.cutPaper();
+    
+    return true;
   } catch (err) {
-    result.error = String(err);
+    console.error('SUNMI printer error:', err);
+    // Fallback to browser print
+    window.print && window.print();
+    return false;
   }
-
-  return result;
 }
 
-export default { isSunmiAvailable, printToken };
+export async function checkPrinterStatus() {
+  if (!Capacitor.isNativePlatform || !Capacitor.isNativePlatform()) {
+    return { available: false, platform: 'web' };
+  }
+  
+  try {
+    const plugin = await loadPlugin();
+    const available = await plugin.isAvailable();
+    const status = await plugin.getPrinterStatus();
+    
+    return {
+      available: available.available,
+      status: status.status,
+      platform: Capacitor.getPlatform()
+    };
+  } catch (err) {
+    return {
+      available: false,
+      error: String(err),
+      platform: Capacitor.getPlatform()
+    };
+  }
+}
+
+export default { isSunmiAvailable, printToken, checkPrinterStatus };
