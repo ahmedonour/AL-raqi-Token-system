@@ -9,6 +9,27 @@ export async function printToken(tokenData = {}) {
   if (isSunmiAvailable()) {
     try {
       const p = window.sunmi.printer;
+      // If native bridge supports raw ESC/POS, prefer sending bytes
+      if (p.sendRaw && typeof p.sendRaw === 'function') {
+        // lazy-load ESC/POS builder to avoid cost in non-escpos flows
+        const { buildReceipt, toBase64 } = await import('./escpos.js');
+        const header = ['AL RAQI UNIVERSITY', 'HOSPITAL', '================================', 'QUEUE TOKEN'];
+        const lines = [
+          `TOKEN NUMBER: ${tokenData.number || ''}`,
+          `Section: ${tokenData.section || '-'}`,
+          `Type: ${tokenData.type || '-'}`,
+          `Fee Paid: ${tokenData.fee || '-'}`,
+          `Date: ${tokenData.date || '-'}`,
+          `Time: ${tokenData.time || '-'}`,
+          `Queue Position: ${tokenData.position || '-'} / ${tokenData.total || '-'}`
+        ];
+        const footer = ['================================', 'INSTRUCTIONS:', 'Please wait for your number', 'Keep this token with you', 'Thank you for choosing AL Raqi University Hospital'];
+        const raw = buildReceipt({ header, lines, footer });
+        const b64 = toBase64(raw);
+        // send base64 blob to native
+        p.sendRaw(b64);
+        return true;
+      }
       // initialize
       p.printerInit && p.printerInit();
 

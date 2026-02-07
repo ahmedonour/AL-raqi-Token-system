@@ -14,7 +14,17 @@
       printText: (txt) => console.log('mock: printText', txt),
       lineWrap: (n) => console.log('mock: lineWrap', n),
       cutPaper: () => console.log('mock: cutPaper'),
-      printQRCode: (txt, size, level) => console.log('mock: printQRCode', txt)
+      printQRCode: (txt, size, level) => console.log('mock: printQRCode', txt),
+      // mock raw ESC/POS sender
+      sendRaw: (b64) => {
+        console.log('mock: sendRaw (base64 length)', b64?.length);
+        try {
+          const binary = atob(b64);
+          console.log('mock: raw bytes length', binary.length);
+        } catch (e) {
+          console.error('mock: invalid base64', e);
+        }
+      }
     };
     mocked = true;
   }
