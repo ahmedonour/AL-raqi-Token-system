@@ -279,7 +279,17 @@
 
 <!-- Add/Edit Modal -->
 {#if showAddModal}
-	<div class="modal-overlay" on:click={closeModal}>
+	<div
+		class="modal-overlay"
+		on:click={closeModal}
+		on:keydown={(e) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				closeModal();
+			}
+		}}
+		role="button"
+		tabindex="0"
+	>
 		<div class="modal" on:click|stopPropagation>
 			<div class="modal-header">
 				<h2>{editingSection ? 'Edit Section' : 'Add New Section'}</h2>

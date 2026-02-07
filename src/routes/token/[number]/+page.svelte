@@ -3,6 +3,7 @@
 	import { sections } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { isSunmiAvailable, printToken as sunmiPrint } from '$lib/sunmiPrinter.js';
 	
 	$: tokenNumber = parseInt($page.params.number);
 	$: sectionId = parseInt($page.url.searchParams.get('section') || '0');
@@ -29,8 +30,34 @@
 		currentTime = now.toLocaleTimeString('en-US');
 	}
 
-	function printToken() {
-		window.print();
+	async function printToken() {
+		// Only run printing in browser
+		if (typeof window === 'undefined') return;
+
+		const position = section ? (section.queue.findIndex(t => t.number === tokenNumber) + 1) : '-';
+		const total = section ? section.queue.length : '-';
+
+		const tokenData = {
+			number: tokenNumber,
+			section: section?.name,
+			type: section?.type === 'clinic' ? 'Clinic' : (section?.type || '-'),
+			fee: section?.price,
+			date: currentDate,
+			time: currentTime,
+			position,
+			total
+		};
+
+		if (isSunmiAvailable()) {
+			try {
+				await sunmiPrint(tokenData);
+			} catch (err) {
+				console.error('SUNMI print failed, falling back to browser print', err);
+				window.print && window.print();
+			}
+		} else {
+			window.print && window.print();
+		}
 	}
 
 	function goHome() {
