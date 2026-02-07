@@ -79,4 +79,34 @@ export async function printToken(tokenData = {}) {
   return false;
 }
 
+// Diagnostic: check native printer status and available methods
+export async function checkPrinterStatus() {
+  if (typeof window === 'undefined') return { available: false };
+  const available = isSunmiAvailable();
+  const result = { available, methods: [] };
+  if (!available) return result;
+
+  try {
+    const p = window.sunmi.printer;
+    // list common methods
+    const candidates = ['printerInit','setAlignment','printTextWithFont','printText','lineWrap','cutPaper','printBitmap','printQRCode','sendRaw','getPrinterStatus','getPrinterInfo'];
+    result.methods = candidates.filter(m => typeof p[m] === 'function');
+
+    // try calling getPrinterStatus if available
+    if (typeof p.getPrinterStatus === 'function') {
+      try {
+        const st = p.getPrinterStatus();
+        result.status = st;
+      } catch (e) {
+        // some native methods may be async or require callbacks — ignore errors
+        result.statusError = String(e);
+      }
+    }
+  } catch (err) {
+    result.error = String(err);
+  }
+
+  return result;
+}
+
 export default { isSunmiAvailable, printToken };

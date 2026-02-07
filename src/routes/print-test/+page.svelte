@@ -3,6 +3,7 @@
   import { printToken as sunmiPrint, isSunmiAvailable } from '$lib/sunmiPrinter.js';
 
   let mocked = false;
+  let sunmiStatus = null;
 
   function setupMock() {
     if (typeof window === 'undefined') return;
@@ -46,6 +47,19 @@
     alert('Print function invoked (check console).');
   }
 
+  async function checkSunmi() {
+    if (typeof window === 'undefined') return;
+    try {
+      const { checkPrinterStatus } = await import('$lib/sunmiPrinter.js');
+      sunmiStatus = await checkPrinterStatus();
+      console.log('SUNMI status', sunmiStatus);
+      alert('Check complete — open console for details');
+    } catch (e) {
+      console.error(e);
+      alert('Error checking SUNMI — open console');
+    }
+  }
+
   onMount(() => {
     // For convenience, auto-mock in dev if sunmi is not present
     if (typeof window !== 'undefined' && !isSunmiAvailable()) {
@@ -62,7 +76,11 @@
   <div style="display:flex;gap:8px;">
     <button on:click={setupMock}>Mock SUNMI Printer</button>
     <button on:click={testPrint}>Test Print</button>
+    <button on:click={checkSunmi}>Check SUNMI</button>
   </div>
 
   <p style="margin-top:1rem">Mocked: {mocked ? 'yes' : 'no'}</p>
+  {#if sunmiStatus}
+    <pre style="background:#f6f8fa;padding:8px;border-radius:4px;margin-top:8px">{JSON.stringify(sunmiStatus, null, 2)}</pre>
+  {/if}
 </div>
