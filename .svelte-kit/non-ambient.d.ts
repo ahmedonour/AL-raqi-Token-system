@@ -43,6 +43,6 @@ declare module "$app/types" {
 		};
 		Pathname(): "/" | "/dashboard" | "/dashboard/" | "/payment" | "/payment/" | `/payment/${string}` & {} | `/payment/${string}/` & {} | "/print-test" | "/print-test/" | "/token" | "/token/" | `/token/${string}` & {} | `/token/${string}/` & {};
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
-		Asset(): "/favicon.svg" | "/icon-192.png" | "/icon-512.png" | string & {};
+		Asset(): "/favicon.svg" | "/icon-192.png" | "/icon-192.svg" | "/icon-512.png" | "/icon-512.svg" | "/manifest.json" | "/manifest.webmanifest" | "/sw.js" | string & {};
 	}
 }

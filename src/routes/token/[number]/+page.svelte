@@ -119,15 +119,7 @@
 		{/if}
 
 		<!-- Instructions -->
-		<div class="instructions">
-			<h3>Instructions:</h3>
-			<ul>
-				<li>Please wait for your number to be called</li>
-				<li>Keep this token with you at all times</li>
-				<li>Listen for announcements in the waiting area</li>
-				<li>If you miss your turn, please inform the reception</li>
-			</ul>
-		</div>
+		<!-- Instructions removed per request -->
 
 		<!-- Action Buttons -->
 		<div class="actions no-print">
@@ -141,8 +133,8 @@
 
 		<!-- Footer -->
 		<div class="token-footer">
-			<p>Thank you for choosing AL Raqi University Hospital</p>
-			<p class="small">For emergencies, please contact our emergency department immediately</p>
+			<p class="footer-main">Thank you for choosing <br> AL Raqi University Hospital</p>
+			<!-- <p class="footer-urgent">For emergencies, please contact …</p> -->
 		</div>
 	</div>
 </div>
@@ -160,7 +152,7 @@
 
 	.token-card {
 		background: white;
-		padding: 3rem;
+		padding: 1.25rem;
 		border-radius: 1.5rem;
 		box-shadow: var(--shadow-lg);
 		width: 100%;
@@ -168,56 +160,58 @@
 
 	.print-header {
 		text-align: center;
-		margin-bottom: 2rem;
-		padding-bottom: 2rem;
+		margin-bottom: 1rem;
+		padding-bottom: 1rem;
 		border-bottom: 2px dashed var(--border);
 	}
 
-	.hospital-logo {
-		font-size: 4rem;
-		margin-bottom: 0.5rem;
-	}
+		.hospital-logo {
+			font-size: 2.4rem;
+			margin-bottom: 0.25rem;
+		}
 
 	.print-header h1 {
 		color: var(--primary);
-		font-size: 2rem;
+		font-size: 1.6rem;
 		margin-bottom: 0.5rem;
 	}
 
 	.subtitle {
 		color: var(--text-light);
-		font-size: 1.1rem;
-	}
-
-	.token-number-section {
-		text-align: center;
-		margin: 2rem 0;
-		padding: 2rem;
-		background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-		border-radius: 1rem;
-	}
-
-	.label {
-		color: rgba(255, 255, 255, 0.9);
 		font-size: 1rem;
-		margin-bottom: 0.5rem;
-		font-weight: 600;
 	}
 
-	.token-number {
-		color: white;
-		font-size: 6rem;
-		font-weight: 900;
-		line-height: 1;
-		text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-	}
+		.token-number-section {
+			text-align: center;
+			margin: 0.75rem 0;
+			padding: 0.5rem 0.75rem;
+			background: #ffffff; /* B/W */
+			border-radius: 0.5rem;
+			border: 1px solid #000;
+		}
 
-	.section-info {
-		margin: 2rem 0;
-		padding: 1.5rem;
-		background: var(--bg-light);
-		border-radius: 0.75rem;
-	}
+		.label {
+			color: #000;
+			font-size: 0.7rem;
+			margin-bottom: 0.15rem;
+			font-weight: 600;
+			line-height: 0.95;
+		}
+
+		.token-number {
+			color: #000;
+			font-size: 2.4rem;
+			font-weight: 900;
+			line-height: 0.95;
+			text-shadow: none;
+		}
+
+		.section-info {
+			margin: 0.25rem 0;
+			padding: 0.5rem;
+			background: transparent;
+			border-radius: 0.5rem;
+		}
 
 	.info-row {
 		display: flex;
@@ -240,45 +234,50 @@
 		font-weight: 600;
 	}
 
-	.datetime-section {
-		text-align: center;
-		margin: 2rem 0;
-		padding: 1rem;
-		background: var(--bg-light);
-		border-radius: 0.75rem;
-	}
+		.datetime-section {
+			text-align: center;
+			margin: 0.5rem 0;
+			padding: 0.5rem;
+			background: var(--bg-light);
+			border-radius: 0.5rem;
+		}
 
-	.date {
-		color: var(--text-dark);
-		font-size: 1.1rem;
-		font-weight: 600;
-		margin-bottom: 0.25rem;
-	}
+		.date {
+			color: #000;
+			font-size: 0.7rem;
+			font-weight: 600;
+			margin-bottom: 0;
+			line-height: 1.2;
+		}
 
-	.time {
-		color: var(--text-light);
-		font-size: 0.9rem;
-	}
+		.time {
+			color: #000;
+			font-size: 0.65rem;
+			margin-top: 0;
+			line-height: 1.2;
+		}
 
-	.queue-position {
-		text-align: center;
-		margin: 2rem 0;
-		padding: 1.5rem;
-		border: 2px solid var(--primary);
-		border-radius: 0.75rem;
-	}
+		.queue-position {
+			text-align: center;
+			margin: 0.5rem 0;
+			padding: 0.5rem;
+			border: 1px solid var(--primary);
+			border-radius: 0.5rem;
+		}
 
-	.queue-label {
-		color: var(--text-light);
-		font-size: 0.9rem;
-		margin-bottom: 0.5rem;
-	}
+		.queue-label {
+			color: #000;
+			font-size: 0.65rem;
+			margin-bottom: 0.1rem;
+			line-height: 0.9;
+		}
 
-	.queue-number {
-		color: var(--primary);
-		font-size: 2.5rem;
-		font-weight: 700;
-	}
+		.queue-number {
+			color: #000;
+			font-size: 1.1rem;
+			font-weight: 700;
+			line-height: 0.95;
+		}
 
 	.instructions {
 		margin: 2rem 0;
@@ -340,35 +339,102 @@
 		background: var(--bg-light);
 	}
 
-	.token-footer {
-		text-align: center;
-		margin-top: 2rem;
-		padding-top: 2rem;
-		border-top: 2px dashed var(--border);
-	}
+		.token-footer {
+			text-align: center;
+			margin-top: 0.5rem;
+			padding-top: 0.5rem;
+			border-top: 1px dashed var(--border);
+		}
 
-	.token-footer p {
-		color: var(--text-light);
-		margin-bottom: 0.5rem;
-	}
+		.token-footer p {
+			color: #000;
+			margin-bottom: 0.15rem;
+			font-size: 0.5rem;
+			line-height: 1.2;
+		}
 
-	.small {
-		font-size: 0.85rem;
-	}
+		.footer-main {
+			font-size: 0.5rem;
+			font-weight: 700;
+			line-height: 0.95;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.footer-urgent {
+			font-size: 0.65rem;
+			line-height: 0.95;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.small {
+			font-size: 0.7rem;
+		}
 
 	@media print {
+		/* Target thermal 80mm receipts: compact layout */
+		@page { size: 80mm auto; margin: 4mm; }
+
+		html, body {
+			background: white;
+		}
+
 		.container {
 			padding: 0;
+			width: 280px; /* approx 80mm at common DPI */
+			margin: 0;
 		}
 
 		.token-card {
 			box-shadow: none;
 			border-radius: 0;
+			padding: 8px;
+			width: 100%;
+			background: white;
+			color: #000;
 		}
 
-		.token-number {
-			font-size: 8rem;
+		.print-header h1 {
+			font-size: 15px;
+			margin: 2px 0;
 		}
+
+		.subtitle { font-size: 11px; margin-bottom: 4px; }
+
+		.hospital-logo { font-size: 20px; }
+
+		.token-number-section { padding: 6px; margin: 6px 0; }
+
+		.label { font-size: 10px; color: #000; }
+
+		.token-number {
+			font-size: 32px;
+			font-weight: 800;
+			color: #000;
+			padding: 2px 0;
+		}
+
+		.section-info, .datetime-section, .queue-position, .instructions, .token-footer {
+			padding: 6px 2px;
+			margin: 4px 0;
+			background: transparent;
+			border: none;
+		}
+
+		.info-row { padding: 4px 0; border-bottom: none; font-size: 11px; }
+
+		.instructions { font-size: 10px; }
+
+		.token-footer { font-size: 10px; margin-top: 8px; }
+
+		/* Hide interactive elements when printing */
+		.no-print { display: none !important; }
+
+		/* Ensure compact spacing */
+		* { box-sizing: border-box; }
 	}
 
 	@media (max-width: 768px) {

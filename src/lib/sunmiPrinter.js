@@ -40,14 +40,9 @@ export async function printToken(tokenData = {}) {
     // Print header
     await plugin.setAlignment({ alignment: 1 }); // Center
     await plugin.printTextWithFont({ 
-      text: 'AL RAQI UNIVERSITY\n', 
+      text: 'AL RAQI UNIVERSITY HOSPITAL', 
       typeface: '', 
-      fontSize: 30 
-    });
-    await plugin.printTextWithFont({ 
-      text: 'HOSPITAL\n', 
-      typeface: '', 
-      fontSize: 30 
+      fontSize: 5 
     });
     await plugin.printText({ text: '================================\n' });
     
@@ -77,14 +72,22 @@ export async function printToken(tokenData = {}) {
       text: `Queue Position: ${tokenData.position || '-'} / ${tokenData.total || '-'}\n\n` 
     });
     
-    // Print instructions
+    // Footer: two compact lines (shortened) — small readable font
     await plugin.printText({ text: '================================\n' });
-    await plugin.printText({ 
-      text: 'INSTRUCTIONS:\n- Please wait for your number\n- Keep this token with you\n- Listen for announcements\n- If you miss your turn, inform the reception\n\n' 
-    });
-    await plugin.printText({ 
-      text: '================================\n     Thank you for choosing\n   AL Raqi University Hospital\n\n' 
-    });
+    const footerLine1 = 'Thank you for choosing AL Raqi University Hospital';
+    // const footerLine2 = 'For emergencies, please contact …';
+    if (plugin.printTextWithFont) {
+      try {
+        await plugin.printTextWithFont({ text: footerLine1 + '\n', typeface: '', fontSize: 5 });
+        // await plugin.printTextWithFont({ text: footerLine2 + '\n\n', typeface: '', fontSize: 10 });
+      } catch (e) {
+        await plugin.printText({ text: footerLine1 + '\n' });
+        // await plugin.printText({ text: footerLine2 + '\n\n' });
+      }
+    } else {
+      await plugin.printText({ text: footerLine1 + '\n' });
+    //   await plugin.printText({ text: footerLine2 + '\n\n' });
+    }
     
     // Feed and cut
     await plugin.lineWrap({ lines: 3 });
