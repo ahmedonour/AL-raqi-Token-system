@@ -13,6 +13,6 @@ npm-debug.log*
 .env
 
 # Svelte build
-
+/build/
 # app files
 /android/

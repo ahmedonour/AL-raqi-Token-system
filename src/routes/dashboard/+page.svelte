@@ -1,6 +1,8 @@
 <script>
 	import { sections, tokenCounter } from '$lib/stores';
 	import { goto } from '$app/navigation';
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
+	import { _ } from 'svelte-i18n';
 
 	let activeTab = 'sections';
 	let showAddModal = false;
@@ -43,7 +45,7 @@
 
 	function handleSubmit() {
 		if (!formData.name || formData.price <= 0) {
-			alert('Please fill all fields correctly');
+			alert($_('dashboard.alerts.fillAllFields'));
 			return;
 		}
 
@@ -57,19 +59,19 @@
 	}
 
 	function deleteSection(id) {
-		if (confirm('Are you sure you want to delete this section?')) {
+		if (confirm($_('dashboard.alerts.confirmDeleteSection'))) {
 			sections.remove(id);
 		}
 	}
 
 	function removeFromQueue(sectionId, tokenNumber) {
-		if (confirm(`Remove token #${tokenNumber} from queue?`)) {
+		if (confirm($_('dashboard.alerts.confirmRemoveToken', { values: { tokenNumber } }))) {
 			sections.removeFromQueue(sectionId, tokenNumber);
 		}
 	}
 
 	function resetAllData() {
-		if (confirm('This will reset all sections and queues to default. Are you sure?')) {
+		if (confirm($_('dashboard.alerts.confirmResetAllData'))) {
 			sections.reset();
 			tokenCounter.reset();
 		}
@@ -86,18 +88,21 @@
 </script>
 
 <svelte:head>
-	<title>Dashboard - AL Raqi University Hospital</title>
+	<title>{$_('dashboard.title')}</title>
 </svelte:head>
 
 <div class="dashboard">
 	<header class="dashboard-header">
 		<div>
-			<h1>🏥 Dashboard</h1>
-			<p>AL Raqi University Hospital - Admin Panel</p>
+			<h1>{$_('dashboard.heading')}</h1>
+			<p>{$_('dashboard.adminPanel')}</p>
 		</div>
-		<button class="home-btn" on:click={goHome}>
-			← Back to Home
-		</button>
+		<div class="header-actions">
+			<LanguageSwitcher />
+			<button class="home-btn" on:click={goHome}>
+				{$_('dashboard.backToHome')}
+			</button>
+		</div>
 	</header>
 
 	<!-- Stats Cards -->
@@ -105,28 +110,28 @@
 		<div class="stat-card">
 			<div class="stat-icon">📋</div>
 			<div>
-				<p class="stat-label">Total Sections</p>
+				<p class="stat-label">{$_('dashboard.totalSections')}</p>
 				<p class="stat-value">{$sections.length}</p>
 			</div>
 		</div>
 		<div class="stat-card">
 			<div class="stat-icon">⏳</div>
 			<div>
-				<p class="stat-label">In Queue</p>
+				<p class="stat-label">{$_('dashboard.inQueue')}</p>
 				<p class="stat-value">{totalInQueue}</p>
 			</div>
 		</div>
 		<div class="stat-card">
 			<div class="stat-icon">🎫</div>
 			<div>
-				<p class="stat-label">Total Tokens</p>
+				<p class="stat-label">{$_('dashboard.totalTokens')}</p>
 				<p class="stat-value">{$tokenCounter}</p>
 			</div>
 		</div>
 		<div class="stat-card">
 			<div class="stat-icon">💰</div>
 			<div>
-				<p class="stat-label">Today's Revenue</p>
+				<p class="stat-label">{$_('dashboard.todaysRevenue')}</p>
 				<p class="stat-value">{totalRevenue} SDG</p>
 			</div>
 		</div>
@@ -139,14 +144,14 @@
 			class:active={activeTab === 'sections'}
 			on:click={() => activeTab = 'sections'}
 		>
-			Sections Management
+			{$_('dashboard.sectionsManagement')}
 		</button>
 		<button 
 			class="tab" 
 			class:active={activeTab === 'queues'}
 			on:click={() => activeTab = 'queues'}
 		>
-			Queue Monitor
+			{$_('dashboard.queueMonitor')}
 		</button>
 	</div>
 
@@ -154,13 +159,13 @@
 	{#if activeTab === 'sections'}
 		<div class="content-panel">
 			<div class="panel-header">
-				<h2>Sections & Services</h2>
+				<h2>{$_('dashboard.sectionsServices')}</h2>
 				<div class="panel-actions">
 					<button class="add-btn" on:click={openAddModal}>
-						+ Add Section
+						{$_('dashboard.addSection')}
 					</button>
 					<button class="reset-btn" on:click={resetAllData}>
-						Reset All
+						{$_('dashboard.resetAll')}
 					</button>
 				</div>
 			</div>
@@ -169,12 +174,12 @@
 				<table>
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Name</th>
-							<th>Type</th>
-							<th>Price (SDG)</th>
-							<th>Queue</th>
-							<th>Actions</th>
+							<th>{$_('dashboard.table.id')}</th>
+							<th>{$_('dashboard.table.name')}</th>
+							<th>{$_('dashboard.table.type')}</th>
+							<th>{$_('dashboard.table.price')}</th>
+							<th>{$_('dashboard.table.queue')}</th>
+							<th>{$_('dashboard.table.actions')}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -191,7 +196,7 @@
 								</td>
 								<td>
 									<span class="badge badge-{section.type}">
-										{section.type}
+										{section.type === 'clinic' ? $_('dashboard.sectionType.clinic') : $_('dashboard.sectionType.laboratory')}
 									</span>
 								</td>
 								<td>{section.price}</td>
@@ -206,13 +211,13 @@
 											class="edit-btn" 
 											on:click={() => openEditModal(section)}
 										>
-											Edit
+											{$_('dashboard.edit')}
 										</button>
 										<button 
 											class="delete-btn" 
 											on:click={() => deleteSection(section.id)}
 										>
-											Delete
+											{$_('dashboard.delete')}
 										</button>
 									</div>
 								</td>
@@ -228,7 +233,7 @@
 	{#if activeTab === 'queues'}
 		<div class="content-panel">
 			<div class="panel-header">
-				<h2>Live Queue Monitor</h2>
+				<h2>{$_('dashboard.liveQueueMonitor')}</h2>
 			</div>
 
 			<div class="queues-grid">
@@ -238,7 +243,7 @@
 							<div class="queue-header">
 								<div>
 									<h3>{section.name}</h3>
-									<p class="queue-count">{section.queue.length} waiting</p>
+									<p class="queue-count">{section.queue.length} {$_('dashboard.waiting')}</p>
 								</div>
 								<span class="section-icon-large">
 									{section.type === 'clinic' ? '🩺' : '🔬'}
@@ -270,7 +275,7 @@
 
 			{#if totalInQueue === 0}
 				<div class="empty-state">
-					<p>No tokens in queue</p>
+					<p>{$_('dashboard.noTokensInQueue')}</p>
 				</div>
 			{/if}
 		</div>
@@ -292,32 +297,32 @@
 	>
 		<div class="modal" on:click|stopPropagation>
 			<div class="modal-header">
-				<h2>{editingSection ? 'Edit Section' : 'Add New Section'}</h2>
+				<h2>{editingSection ? $_('dashboard.modal.editSection') : $_('dashboard.modal.addSection')}</h2>
 				<button class="close-btn" on:click={closeModal}>✕</button>
 			</div>
 
 			<form on:submit|preventDefault={handleSubmit}>
 				<div class="form-group">
-					<label for="name">Section Name</label>
+					<label for="name">{$_('dashboard.modal.sectionName')}</label>
 					<input 
 						id="name"
 						type="text" 
 						bind:value={formData.name}
-						placeholder="e.g., Cardiology"
+						placeholder={$_('dashboard.modal.sectionNamePlaceholder')}
 						required
 					/>
 				</div>
 
 				<div class="form-group">
-					<label for="type">Type</label>
+					<label for="type">{$_('dashboard.modal.type')}</label>
 					<select id="type" bind:value={formData.type}>
-						<option value="clinic">Clinic</option>
-						<option value="laboratory">Laboratory</option>
+						<option value="clinic">{$_('dashboard.sectionType.clinic')}</option>
+						<option value="laboratory">{$_('dashboard.sectionType.laboratory')}</option>
 					</select>
 				</div>
 
 				<div class="form-group">
-					<label for="price">Price (SDG)</label>
+					<label for="price">{$_('dashboard.modal.price')}</label>
 					<input 
 						id="price"
 						type="number" 
@@ -329,10 +334,10 @@
 
 				<div class="modal-actions">
 					<button type="button" class="cancel-btn" on:click={closeModal}>
-						Cancel
+						{$_('dashboard.modal.cancel')}
 					</button>
 					<button type="submit" class="submit-btn">
-						{editingSection ? 'Update' : 'Add'} Section
+						{editingSection ? $_('dashboard.modal.updateSection') : $_('dashboard.modal.addSectionButton')}
 					</button>
 				</div>
 			</form>
@@ -381,6 +386,12 @@
 
 	.home-btn:hover {
 		background: var(--primary-dark);
+	}
+
+	.header-actions {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
 	}
 
 	.stats-grid {

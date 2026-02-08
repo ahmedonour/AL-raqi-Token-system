@@ -2,6 +2,7 @@
 	import { sections } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { _ } from 'svelte-i18n'; // Import the $_ function
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte'; // Import the LanguageSwitcher component
 
 	let filter = 'all';
 
@@ -27,9 +28,12 @@
 				<p>{$_('hospital.tokenManagementSystem')}</p>
 			</div>
 		</div>
-		<a href="/dashboard" class="admin-btn no-print">
-			<span>⚙️</span> {$_('dashboard')}
-		</a>
+		<div class="header-actions">
+			<LanguageSwitcher />
+			<a href="/dashboard" class="admin-btn no-print">
+				<span>⚙️</span> {$_('dashboard.heading')}
+			</a>
+		</div>
 	</header>
 
 	<div class="filter-tabs no-print">
@@ -122,6 +126,12 @@
 	.logo p {
 		color: var(--text-light);
 		font-size: 0.9rem;
+	}
+
+	.header-actions {
+		display: flex;
+		gap: 1rem; /* Space between language switcher and admin button */
+		align-items: center;
 	}
 
 	.admin-btn {

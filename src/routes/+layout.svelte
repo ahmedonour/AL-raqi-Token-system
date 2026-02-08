@@ -2,7 +2,6 @@
 	import '../app.css';
 	import { onMount } from 'svelte';
     import { locale } from 'svelte-i18n';
-	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte'; // Import the LanguageSwitcher component
 
 	onMount(() => {
 			// Only register the service worker in production.
@@ -40,7 +39,6 @@
     }
 </script>
 
-<LanguageSwitcher />
 {#if $locale}
 	<slot />
 {/if}

@@ -4,52 +4,52 @@
 	box-sizing: border-box;
 }
 
-/* Lateef Font Definitions */
-.lateef-extralight {
-  font-family: "Lateef", serif;
+/* Tajawal Font Definitions */
+.tajawal-extralight {
+  font-family: "Tajawal", sans-serif;
   font-weight: 200;
   font-style: normal;
 }
 
-.lateef-light {
-  font-family: "Lateef", serif;
+.tajawal-light {
+  font-family: "Tajawal", sans-serif;
   font-weight: 300;
   font-style: normal;
 }
 
-.lateef-regular {
-  font-family: "Lateef", serif;
+.tajawal-regular {
+  font-family: "Tajawal", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
-.lateef-medium {
-  font-family: "Lateef", serif;
+.tajawal-medium {
+  font-family: "Tajawal", sans-serif;
   font-weight: 500;
   font-style: normal;
 }
 
-.lateef-semibold {
-  font-family: "Lateef", serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.lateef-bold {
-  font-family: "Lateef", serif;
+.tajawal-bold {
+  font-family: "Tajawal", sans-serif;
   font-weight: 700;
   font-style: normal;
 }
 
-.lateef-extrabold {
-  font-family: "Lateef", serif;
+.tajawal-extrabold {
+  font-family: "Tajawal", sans-serif;
   font-weight: 800;
   font-style: normal;
 }
 
-/* Apply Lateef font globally when lang-ar class is present */
+.tajawal-black {
+  font-family: "Tajawal", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Apply Tajawal font globally when lang-ar class is present */
 html.lang-ar body {
-    font-family: "Lateef", serif;
+    font-family: "Tajawal", sans-serif;
 }
 
 body {

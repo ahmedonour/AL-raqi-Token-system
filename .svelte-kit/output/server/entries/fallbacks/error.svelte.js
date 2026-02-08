@@ -1,7 +1,7 @@
 import { s as subscribe } from "../../chunks/utils2.js";
 import { c as create_ssr_component } from "../../chunks/ssr.js";
 import { p as page } from "../../chunks/stores.js";
-import { e as escape } from "../../chunks/escape.js";
+import { e as escape } from "../../chunks/state.svelte.js";
 const Error = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $page, $$unsubscribe_page;
   $$unsubscribe_page = subscribe(page, (value) => $page = value);

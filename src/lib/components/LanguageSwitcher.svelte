@@ -35,10 +35,6 @@
         cursor: pointer;
         padding: 8px;
         color: var(--text-dark); /* Using a variable from app.css */
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 1000;
     }
 
     .language-switcher svg {

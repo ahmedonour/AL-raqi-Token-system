@@ -3,7 +3,55 @@ const hospital = {
   title: "AL Raqi University Hospital",
   tokenManagementSystem: "Token Management System"
 };
-const dashboard = "Dashboard";
+const dashboard = {
+  title: "Dashboard - AL Raqi University Hospital",
+  heading: "🏥 Dashboard",
+  adminPanel: "AL Raqi University Hospital - Admin Panel",
+  backToHome: "← Back to Home",
+  totalSections: "Total Sections",
+  inQueue: "In Queue",
+  totalTokens: "Total Tokens",
+  todaysRevenue: "Today's Revenue",
+  sectionsManagement: "Sections Management",
+  queueMonitor: "Queue Monitor",
+  sectionsServices: "Sections & Services",
+  addSection: "+ Add Section",
+  resetAll: "Reset All",
+  table: {
+    id: "ID",
+    name: "Name",
+    type: "Type",
+    price: "Price (SDG)",
+    queue: "Queue",
+    actions: "Actions"
+  },
+  sectionType: {
+    clinic: "Clinic",
+    laboratory: "Laboratory"
+  },
+  edit: "Edit",
+  "delete": "Delete",
+  liveQueueMonitor: "Live Queue Monitor",
+  waiting: "waiting",
+  noTokensInQueue: "No tokens in queue",
+  modal: {
+    editSection: "Edit Section",
+    addSection: "Add New Section",
+    sectionName: "Section Name",
+    sectionNamePlaceholder: "e.g., Cardiology",
+    type: "Type",
+    price: "Price (SDG)",
+    cancel: "Cancel",
+    updateSection: "Update Section",
+    addSectionButton: "Add Section"
+  },
+  alerts: {
+    fillAllFields: "Please fill all fields correctly",
+    confirmDeleteSection: "Are you sure you want to delete this section?",
+    confirmRemoveToken: "Remove token #{tokenNumber} from queue?",
+    confirmResetAllData: "This will reset all sections and queues to default. Are you sure?"
+  }
+};
 const filters = {
   allServices: "All Services",
   clinics: "Clinics",
@@ -42,6 +90,7 @@ const paymentPage = {
   sectionNotFound: "Section not found",
   returnToHome: "← Return to Home"
 };
+const downloadApk = "Download APK";
 const en = {
   hello,
   hospital,
@@ -51,12 +100,14 @@ const en = {
   emptyState,
   currency,
   tokenPage,
-  paymentPage
+  paymentPage,
+  downloadApk
 };
 export {
   currency,
   dashboard,
   en as default,
+  downloadApk,
   emptyState,
   filters,
   hello,
