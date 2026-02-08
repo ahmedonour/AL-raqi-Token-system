@@ -256,7 +256,7 @@
 			line-height: 0.95;
 		}
 
-	.instructions {
+	/* .instructions {
 		margin: 2rem 0;
 		padding: 1.5rem;
 		background: #fef3c7;
@@ -278,7 +278,7 @@
 	.instructions li {
 		margin-bottom: 0.5rem;
 		line-height: 1.5;
-	}
+	} */
 
 	.actions {
 		display: grid;
@@ -339,7 +339,7 @@
 			text-overflow: ellipsis;
 		}
 
-		.footer-urgent {
+		/* .footer-urgent {
 			font-size: 0.65rem;
 			line-height: 0.95;
 			white-space: nowrap;
@@ -349,15 +349,15 @@
 
 		.small {
 			font-size: 0.7rem;
-		}
+		} */
 
 	@media print {
 		/* Target thermal 80mm receipts: compact layout */
 		@page { size: 80mm auto; margin: 4mm; }
 
-		html, body {
+		/* html, body {
 			background: white;
-		}
+		} */
 
 		.container {
 			padding: 0;
@@ -393,8 +393,8 @@
 			color: #000;
 			padding: 2px 0;
 		}
-
-		.section-info, .datetime-section, .queue-position, .instructions, .token-footer {
+		/* add .instructions here later when you decide on content */
+		.section-info, .datetime-section, .queue-position, .token-footer {
 			padding: 6px 2px;
 			margin: 4px 0;
 			background: transparent;
@@ -403,7 +403,7 @@
 
 		.info-row { padding: 4px 0; border-bottom: none; font-size: 11px; }
 
-		.instructions { font-size: 10px; }
+		/* .instructions { font-size: 10px; } */
 
 		.token-footer { font-size: 10px; margin-top: 8px; }
 
