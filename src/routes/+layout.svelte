@@ -1,6 +1,8 @@
 <script>
 	import '../app.css';
 	import { onMount } from 'svelte';
+    import { locale } from 'svelte-i18n';
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte'; // Import the LanguageSwitcher component
 
 	onMount(() => {
 			// Only register the service worker in production.
@@ -26,6 +28,17 @@
 				}
 			}
 	});
+
+    // Reactive statement to update html lang attribute and add class for Arabic font
+    $: if ($locale) {
+        document.documentElement.setAttribute('lang', $locale);
+        if ($locale === 'ar') {
+            document.documentElement.classList.add('lang-ar');
+        } else {
+            document.documentElement.classList.remove('lang-ar');
+        }
+    }
 </script>
 
+<LanguageSwitcher />
 <slot />

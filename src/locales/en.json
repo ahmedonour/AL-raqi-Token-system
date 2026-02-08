@@ -1,0 +1,47 @@
+{
+  "hello": "Hello",
+  "hospital": {
+    "title": "AL Raqi University Hospital",
+    "tokenManagementSystem": "Token Management System"
+  },
+  "dashboard": "Dashboard",
+  "filters": {
+    "allServices": "All Services",
+    "clinics": "Clinics",
+    "laboratories": "Laboratories"
+  },
+  "queue": {
+    "inQueue": "{count} in queue",
+    "positionInQueue": "Position in Queue"
+  },
+  "emptyState": {
+    "noSections": "No sections available. Please contact administrator."
+  },
+  "currency": "SDG",
+  "tokenPage": {
+    "subtitle": "Queue Token",
+    "yourTokenNumber": "Your Token Number",
+    "section": "Section:",
+    "type": "Type:",
+    "clinic": "Clinic",
+    "laboratory": "Laboratory",
+    "feePaid": "Fee Paid:",
+    "printToken": "Print Token",
+    "backToHome": "Back to Home",
+    "thankYouMessage": "Thank you for choosing"
+  },
+  "paymentPage": {
+    "titlePrefix": "Payment -",
+    "loading": "Loading...",
+    "back": "← Back",
+    "serviceFee": "Service Fee",
+    "proceedToPayment": "💳 Proceed to Payment",
+    "manualPaymentInfo": "Please proceed to the cashier for manual payment.",
+    "paymentConfirmed": "Payment Confirmed",
+    "generateToken": "🎫 Generate Token",
+    "generateTokenInfo": "Click above to generate your queue token.",
+    "sectionNotFound": "Section not found",
+    "returnToHome": "← Return to Home"
+  },
+  "downloadApk": "Download APK"
+}

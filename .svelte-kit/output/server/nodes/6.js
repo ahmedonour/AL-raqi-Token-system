@@ -8,6 +8,6 @@ export const universal = {
   "ssr": false
 };
 export const universal_id = "src/routes/token/[number]/+page.js";
-export const imports = ["_app/immutable/nodes/6.CZ7BKBBN.js","_app/immutable/chunks/Cx-SMqmV.js","_app/immutable/chunks/BRdh1MfX.js","_app/immutable/chunks/sPPYXTHL.js","_app/immutable/chunks/By-VsvpK.js","_app/immutable/chunks/D3w1Xed-.js","_app/immutable/chunks/CIQjGu3i.js","_app/immutable/chunks/C1FmrZbK.js"];
-export const stylesheets = ["_app/immutable/assets/6.D9hHSDvY.css"];
+export const imports = ["_app/immutable/nodes/6.Czoz-dZC.js","_app/immutable/chunks/DfyVJTpe.js","_app/immutable/chunks/C4CklrCk.js","_app/immutable/chunks/CPKiFbIO.js","_app/immutable/chunks/Cmn7x47L.js","_app/immutable/chunks/CcYY5e-7.js","_app/immutable/chunks/Dh-yYehQ.js","_app/immutable/chunks/FqtPCAbL.js","_app/immutable/chunks/C1FmrZbK.js","_app/immutable/chunks/D1H6M1Qj.js","_app/immutable/chunks/BVDECMgz.js"];
+export const stylesheets = ["_app/immutable/assets/6.BM4-J17j.css"];
 export const fonts = [];

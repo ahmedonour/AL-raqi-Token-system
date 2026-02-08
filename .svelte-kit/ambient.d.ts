@@ -29,6 +29,7 @@ declare module '$env/static/private' {
 	export const TERM_PROGRAM: string;
 	export const NODE: string;
 	export const INIT_CWD: string;
+	export const ANDROID_HOME: string;
 	export const GEMINI_CLI_IDE_WORKSPACE_PATH: string;
 	export const TERM: string;
 	export const SHELL: string;
@@ -38,6 +39,7 @@ declare module '$env/static/private' {
 	export const VSCODE_PYTHON_AUTOACTIVATE_GUARD: string;
 	export const TERM_PROGRAM_VERSION: string;
 	export const CONDA_PROMPT_MODIFIER: string;
+	export const ANDROID_SDK_ROOT: string;
 	export const ZDOTDIR: string;
 	export const MallocNanoZone: string;
 	export const COLOR: string;
@@ -132,6 +134,7 @@ declare module '$env/dynamic/private' {
 		TERM_PROGRAM: string;
 		NODE: string;
 		INIT_CWD: string;
+		ANDROID_HOME: string;
 		GEMINI_CLI_IDE_WORKSPACE_PATH: string;
 		TERM: string;
 		SHELL: string;
@@ -141,6 +144,7 @@ declare module '$env/dynamic/private' {
 		VSCODE_PYTHON_AUTOACTIVATE_GUARD: string;
 		TERM_PROGRAM_VERSION: string;
 		CONDA_PROMPT_MODIFIER: string;
+		ANDROID_SDK_ROOT: string;
 		ZDOTDIR: string;
 		MallocNanoZone: string;
 		COLOR: string;

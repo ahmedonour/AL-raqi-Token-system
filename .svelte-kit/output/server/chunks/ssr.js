@@ -1,27 +1,4 @@
-function noop() {
-}
-function run(fn) {
-  return fn();
-}
-function blank_object() {
-  return /* @__PURE__ */ Object.create(null);
-}
-function run_all(fns) {
-  fns.forEach(run);
-}
-function safe_not_equal(a, b) {
-  return a != a ? b == b : a !== b || a && typeof a === "object" || typeof a === "function";
-}
-function subscribe(store, ...callbacks) {
-  if (store == null) {
-    for (const callback of callbacks) {
-      callback(void 0);
-    }
-    return noop;
-  }
-  const unsub = store.subscribe(...callbacks);
-  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
-}
+import { r as run_all, b as blank_object } from "./utils2.js";
 let current_component;
 function set_current_component(component) {
   current_component = component;
@@ -98,13 +75,10 @@ function create_ssr_component(fn) {
   };
 }
 export {
-  subscribe as a,
-  safe_not_equal as b,
   create_ssr_component as c,
   each as e,
   getContext as g,
   missing_component as m,
-  noop as n,
   setContext as s,
   validate_component as v
 };

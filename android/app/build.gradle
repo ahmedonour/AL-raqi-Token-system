@@ -25,6 +25,7 @@ android {
 }
 
 repositories {
+    google() // Add Google's Maven repository
     flatDir{
         dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
     }

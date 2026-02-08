@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { sections, tokenCounter } from '$lib/stores';
 	import { goto } from '$app/navigation';
+	import { _ } from 'svelte-i18n';
 	
 	$: sectionId = parseInt($page.params.id);
 	$: section = $sections.find(s => s.id === sectionId);
@@ -37,14 +38,14 @@
 </script>
 
 <svelte:head>
-	<title>Payment - {section?.name || 'Loading...'}</title>
+	<title>{$_('paymentPage.titlePrefix')} {section?.name || $_('paymentPage.loading')}</title>
 </svelte:head>
 
 <div class="container">
 	{#if section}
 		<div class="payment-card">
 			<button class="back-btn no-print" on:click={goBack}>
-				← Back
+				{$_('paymentPage.back')}
 			</button>
 
 			<div class="section-header">
@@ -52,43 +53,43 @@
 					{section.type === 'clinic' ? '🩺' : '🔬'}
 				</div>
 				<h2>{section.name}</h2>
-				<p class="type-badge">{section.type === 'clinic' ? 'Clinic' : 'Laboratory'}</p>
+				<p class="type-badge">{section.type === 'clinic' ? $_('tokenPage.clinic') : $_('tokenPage.laboratory')}</p>
 			</div>
 
 			{#if !isPaid}
 				<div class="price-section">
-					<p class="price-label">Service Fee</p>
-					<p class="price-amount">{section.price} SDG</p>
+					<p class="price-label">{$_('paymentPage.serviceFee')}</p>
+					<p class="price-amount">{section.price} {$_('currency')}</p>
 				</div>
 
 				<button class="pay-btn" on:click={handlePayment}>
-					💳 Proceed to Payment
+					{$_('paymentPage.proceedToPayment')}
 				</button>
 
 				<p class="info-text">
-					Please proceed to the cashier for manual payment.
+					{$_('paymentPage.manualPaymentInfo')}
 				</p>
 			{:else}
 				<div class="paid-section">
 					<div class="checkmark">✓</div>
-					<p class="paid-text">Payment Confirmed</p>
+					<p class="paid-text">{$_('paymentPage.paymentConfirmed')}</p>
 					<p class="paid-amount">{section.price} SDG</p>
 				</div>
 
 				<button class="token-btn" on:click={generateToken}>
-					🎫 Generate Token
+					{$_('paymentPage.generateToken')}
 				</button>
 
 				<p class="info-text">
-					Click above to generate your queue token.
+					{$_('paymentPage.generateTokenInfo')}
 				</p>
 			{/if}
 		</div>
 	{:else}
 		<div class="payment-card">
-			<p class="error-text">Section not found</p>
+			<p class="error-text">{$_('paymentPage.sectionNotFound')}</p>
 			<button class="back-btn" on:click={goBack}>
-				← Return to Home
+				{$_('paymentPage.returnToHome')}
 			</button>
 		</div>
 	{/if}

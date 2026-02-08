@@ -3,7 +3,7 @@
 	import { sections } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { isSunmiAvailable, printToken as sunmiPrint } from '$lib/sunmiPrinter.js';
+	import { _ } from 'svelte-i18n';
 	
 	$: tokenNumber = parseInt($page.params.number);
 	$: sectionId = parseInt($page.url.searchParams.get('section') || '0');
@@ -21,43 +21,20 @@
 
 	function updateDateTime() {
 		const now = new Date();
-		currentDate = now.toLocaleDateString('en-US', { 
+		currentDate = now.toLocaleDateString(undefined, { 
 			weekday: 'long', 
 			year: 'numeric', 
 			month: 'long', 
 			day: 'numeric' 
 		});
-		currentTime = now.toLocaleTimeString('en-US');
+		currentTime = now.toLocaleTimeString(undefined);
 	}
 
 	async function printToken() {
 		// Only run printing in browser
 		if (typeof window === 'undefined') return;
 
-		const position = section ? (section.queue.findIndex(t => t.number === tokenNumber) + 1) : '-';
-		const total = section ? section.queue.length : '-';
-
-		const tokenData = {
-			number: tokenNumber,
-			section: section?.name,
-			type: section?.type === 'clinic' ? 'Clinic' : (section?.type || '-'),
-			fee: section?.price,
-			date: currentDate,
-			time: currentTime,
-			position,
-			total
-		};
-
-		if (isSunmiAvailable()) {
-			try {
-				await sunmiPrint(tokenData);
-			} catch (err) {
-				console.error('SUNMI print failed, falling back to browser print', err);
-				window.print && window.print();
-			}
-		} else {
-			window.print && window.print();
-		}
+		window.print && window.print();
 	}
 
 	function goHome() {
@@ -66,7 +43,7 @@
 </script>
 
 <svelte:head>
-	<title>Token #{tokenNumber} - AL Raqi University Hospital</title>
+	<title>{$_('tokenPage.yourTokenNumber')} #{tokenNumber} - {$_('hospital.title')}</title>
 </svelte:head>
 
 <div class="container">
@@ -74,13 +51,13 @@
 		<!-- Print Header -->
 		<div class="print-header">
 			<div class="hospital-logo">🏥</div>
-			<h1>AL Raqi University Hospital</h1>
-			<p class="subtitle">Queue Token</p>
+			<h1>{$_('hospital.title')}</h1>
+			<p class="subtitle">{$_('tokenPage.subtitle')}</p>
 		</div>
 
 		<!-- Token Number -->
 		<div class="token-number-section">
-			<p class="label">Your Token Number</p>
+			<p class="label">{$_('tokenPage.yourTokenNumber')}</p>
 			<div class="token-number">{tokenNumber}</div>
 		</div>
 
@@ -88,16 +65,16 @@
 		{#if section}
 			<div class="section-info">
 				<div class="info-row">
-					<span class="info-label">Section:</span>
+					<span class="info-label">{$_('tokenPage.section')}</span>
 					<span class="info-value">{section.name}</span>
 				</div>
 				<div class="info-row">
-					<span class="info-label">Type:</span>
-					<span class="info-value">{section.type === 'clinic' ? 'Clinic' : 'Laboratory'}</span>
+					<span class="info-label">{$_('tokenPage.type')}</span>
+					<span class="info-value">{section.type === 'clinic' ? $_('tokenPage.clinic') : $_('tokenPage.laboratory')}</span>
 				</div>
 				<div class="info-row">
-					<span class="info-label">Fee Paid:</span>
-					<span class="info-value">{section.price} SDG</span>
+					<span class="info-label">{$_('tokenPage.feePaid')}</span>
+					<span class="info-value">{section.price} {$_('currency')}</span>
 				</div>
 			</div>
 		{/if}
@@ -111,7 +88,7 @@
 		<!-- Queue Position -->
 		{#if section}
 			<div class="queue-position">
-				<p class="queue-label">Position in Queue</p>
+				<p class="queue-label">{$_('queue.positionInQueue')}</p>
 				<p class="queue-number">
 					{section.queue.findIndex(t => t.number === tokenNumber) + 1} / {section.queue.length}
 				</p>
@@ -124,16 +101,16 @@
 		<!-- Action Buttons -->
 		<div class="actions no-print">
 			<button class="print-btn" on:click={printToken}>
-				🖨️ Print Token
+				🖨️ {$_('tokenPage.printToken')}
 			</button>
 			<button class="home-btn" on:click={goHome}>
-				🏠 Back to Home
+				🏠 {$_('tokenPage.backToHome')}
 			</button>
 		</div>
 
 		<!-- Footer -->
 		<div class="token-footer">
-			<p class="footer-main">Thank you for choosing <br> AL Raqi University Hospital</p>
+			<p class="footer-main">{$_('tokenPage.thankYouMessage')} <br> {$_('hospital.title')}</p>
 			<!-- <p class="footer-urgent">For emergencies, please contact …</p> -->
 		</div>
 	</div>

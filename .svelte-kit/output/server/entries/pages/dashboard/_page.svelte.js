@@ -1,4 +1,5 @@
-import { c as create_ssr_component, a as subscribe, e as each } from "../../../chunks/ssr.js";
+import { s as subscribe } from "../../../chunks/utils2.js";
+import { c as create_ssr_component, e as each } from "../../../chunks/ssr.js";
 import { s as sections, t as tokenCounter } from "../../../chunks/stores2.js";
 import "@sveltejs/kit/internal";
 import "../../../chunks/exports.js";

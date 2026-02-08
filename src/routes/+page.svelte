@@ -1,7 +1,7 @@
 <script>
 	import { sections } from '$lib/stores';
-	import { printToken } from '$lib/sunmiPrinter.js';
 	import { goto } from '$app/navigation';
+	import { _ } from 'svelte-i18n'; // Import the $_ function
 
 	let filter = 'all';
 
@@ -12,33 +12,10 @@
 	function selectSection(section) {
 		goto(`/payment/${section.id}`);
 	}
-
-	async function printSmallToken() {
-		const now = new Date();
-		const first = $sections && $sections.length ? $sections[0] : null;
-		const tokenData = {
-			number: 'T-' + Math.floor(Math.random() * 900 + 100),
-			section: first ? first.name : 'General',
-			type: first ? (first.type === 'clinic' ? 'Clinic' : 'Laboratory') : 'Clinic',
-			fee: first ? first.price : 0,
-			date: now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric'}),
-			time: now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-			position: 1,
-			total: 1
-		};
-
-		try {
-			await printToken(tokenData);
-			console.log('Print small token requested', tokenData);
-		} catch (e) {
-			console.error('Print failed', e);
-			alert('Printing failed — see console for details');
-		}
-	}
 </script>
 
 <svelte:head>
-	<title>AL Raqi University Hospital - Token System</title>
+	<title>{$_('hospital.title')} - {$_('hospital.tokenManagementSystem')}</title>
 </svelte:head>
 
 <div class="container">
@@ -46,12 +23,12 @@
 		<div class="logo">
 			<div class="logo-icon">🏥</div>
 			<div>
-				<h1>AL Raqi University Hospital</h1>
-				<p>Token Management System</p>
+				<h1>{$_('hospital.title')}</h1>
+				<p>{$_('hospital.tokenManagementSystem')}</p>
 			</div>
 		</div>
 		<a href="/dashboard" class="admin-btn no-print">
-			<span>⚙️</span> Dashboard
+			<span>⚙️</span> {$_('dashboard')}
 		</a>
 	</header>
 
@@ -61,21 +38,21 @@
 			class:active={filter === 'all'}
 			on:click={() => filter = 'all'}
 		>
-			All Services
+			{$_('filters.allServices')}
 		</button>
 		<button 
 			class="tab" 
 			class:active={filter === 'clinic'}
 			on:click={() => filter = 'clinic'}
 		>
-			Clinics
+			{$_('filters.clinics')}
 		</button>
 		<button 
 			class="tab" 
 			class:active={filter === 'laboratory'}
 			on:click={() => filter = 'laboratory'}
 		>
-			Laboratories
+			{$_('filters.laboratories')}
 		</button>
 	</div>
 
@@ -86,9 +63,9 @@
 					{section.type === 'clinic' ? '🩺' : '🔬'}
 				</div>
 				<h3>{section.name}</h3>
-				<div class="price">{section.price} SDG</div>
+				<div class="price">{section.price} {$_('currency')}</div>
 				<div class="queue-info">
-					{section.queue.length} in queue
+					{$_('queue.inQueue', { values: { count: section.queue.length } })}
 				</div>
 			</button>
 		{/each}
@@ -96,9 +73,15 @@
 
 	{#if filteredSections.length === 0}
 		<div class="empty-state">
-			<p>No sections available. Please contact administrator.</p>
+			<p>{$_('emptyState.noSections')}</p>
 		</div>
 	{/if}
+
+	<div class="apk-download-section no-print">
+		<a href="https://drive.google.com/uc?export=download&id=1lhJs5pDNY4WLclb_KNkj3jgPUXXnhZWv" target="_blank" rel="noopener noreferrer" class="download-apk-btn">
+			📦 {$_('downloadApk')}
+		</a>
+	</div>
 </div>
 
 <style>
@@ -194,6 +177,7 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 		gap: 1.5rem;
+		margin-bottom: 2rem; /* Add some space before the download button */
 	}
 
 	.section-card {
@@ -244,11 +228,38 @@
 		background: white;
 		border-radius: 1rem;
 		box-shadow: var(--shadow);
+		margin-bottom: 2rem; /* Add some space before the download button */
 	}
 
 	.empty-state p {
 		color: var(--text-light);
 		font-size: 1.1rem;
+	}
+
+	.apk-download-section {
+		text-align: center;
+		margin-top: 2rem;
+		padding-top: 2rem;
+		border-top: 1px dashed var(--border);
+	}
+
+	.download-apk-btn {
+		display: inline-block;
+		background: var(--success);
+		color: white;
+		padding: 1rem 2rem;
+		border-radius: 0.75rem;
+		font-size: 1.2rem;
+		font-weight: 700;
+		text-decoration: none;
+		transition: all 0.3s;
+		box-shadow: var(--shadow);
+	}
+
+	.download-apk-btn:hover {
+		background: #059669; /* Darker success color */
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-lg);
 	}
 
 	@media (max-width: 768px) {

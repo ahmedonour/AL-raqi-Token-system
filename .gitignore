@@ -15,4 +15,5 @@ npm-debug.log*
 # Svelte build
 /build/
 
-# Static files
+# app files
+/android/

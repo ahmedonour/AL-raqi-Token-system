@@ -9,11 +9,6 @@ public class MainActivity extends BridgeActivity {
         super.onCreate(savedInstanceState);
         
         // Register custom plugins
-        registerPlugin(SunmiPrinterPlugin.class);
+        // registerPlugin(SunmiPrinterPlugin.class);
     }
 }
-package com.ruh.app;
-
-import com.getcapacitor.BridgeActivity;
-
-public class MainActivity extends BridgeActivity {}
