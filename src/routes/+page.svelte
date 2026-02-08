@@ -1,5 +1,6 @@
 <script>
 	import { sections } from '$lib/stores';
+	import { printToken } from '$lib/sunmiPrinter.js';
 	import { goto } from '$app/navigation';
 
 	let filter = 'all';
@@ -10,6 +11,29 @@
 
 	function selectSection(section) {
 		goto(`/payment/${section.id}`);
+	}
+
+	async function printSmallToken() {
+		const now = new Date();
+		const first = $sections && $sections.length ? $sections[0] : null;
+		const tokenData = {
+			number: 'T-' + Math.floor(Math.random() * 900 + 100),
+			section: first ? first.name : 'General',
+			type: first ? (first.type === 'clinic' ? 'Clinic' : 'Laboratory') : 'Clinic',
+			fee: first ? first.price : 0,
+			date: now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric'}),
+			time: now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+			position: 1,
+			total: 1
+		};
+
+		try {
+			await printToken(tokenData);
+			console.log('Print small token requested', tokenData);
+		} catch (e) {
+			console.error('Print failed', e);
+			alert('Printing failed — see console for details');
+		}
 	}
 </script>
 
