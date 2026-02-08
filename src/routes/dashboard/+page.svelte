@@ -295,7 +295,7 @@
 		role="button"
 		tabindex="0"
 	>
-		<div class="modal" on:click|stopPropagation>
+		<div class="modal" >
 			<div class="modal-header">
 				<h2>{editingSection ? $_('dashboard.modal.editSection') : $_('dashboard.modal.addSection')}</h2>
 				<button class="close-btn" on:click={closeModal}>✕</button>

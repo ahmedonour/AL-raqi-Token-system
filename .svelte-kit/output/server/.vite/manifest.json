@@ -192,7 +192,7 @@
       "_LanguageSwitcher.js"
     ],
     "css": [
-      "_app/immutable/assets/_page.CpjgMWKe.css"
+      "_app/immutable/assets/_page.DHWaMH_v.css"
     ]
   },
   "src/routes/dashboard/+page.svelte": {
@@ -261,7 +261,7 @@
       "_runtime.js"
     ],
     "css": [
-      "_app/immutable/assets/_page.E3GsFesV.css"
+      "_app/immutable/assets/_page.YiqZ8XlN.css"
     ]
   }
 }

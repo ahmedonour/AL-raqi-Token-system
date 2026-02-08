@@ -184,20 +184,24 @@
 	}
 
 	.sections-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		display: flex;
+		flex-wrap: wrap;
 		gap: 1.5rem;
 		margin-bottom: 2rem; /* Add some space before the download button */
 	}
 
 	.section-card {
 		background: white;
-		padding: 2rem;
+		padding: 1.5rem;
 		border-radius: 1rem;
 		box-shadow: var(--shadow);
 		transition: all 0.3s;
 		text-align: center;
 		border: 2px solid transparent;
+		flex: 1 1 200px; /* Flex-grow, flex-shrink, flex-basis */
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 	}
 
 	.section-card:hover {
@@ -207,19 +211,19 @@
 	}
 
 	.icon {
-		font-size: 3rem;
-		margin-bottom: 1rem;
+		font-size: 2.5rem;
+		margin-bottom: 0.5rem;
 	}
 
 	.section-card h3 {
 		color: var(--text-dark);
-		font-size: 1.25rem;
-		margin-bottom: 1rem;
+		font-size: 1.1rem;
+		margin-bottom: 0.5rem;
 	}
 
 	.price {
 		color: var(--primary);
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 		font-weight: 700;
 		margin-bottom: 0.5rem;
 	}
@@ -285,10 +289,6 @@
 
 		.logo {
 			flex-direction: column;
-		}
-
-		.sections-grid {
-			grid-template-columns: 1fr;
 		}
 
 		.filter-tabs {
