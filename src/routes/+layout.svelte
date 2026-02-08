@@ -41,4 +41,6 @@
 </script>
 
 <LanguageSwitcher />
-<slot />
+{#if $locale}
+	<slot />
+{/if}
