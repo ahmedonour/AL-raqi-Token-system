@@ -82,7 +82,7 @@
 	{/if}
 
 	<div class="apk-download-section no-print">
-		<a href="https://drive.google.com/uc?export=download&id=1lhJs5pDNY4WLclb_KNkj3jgPUXXnhZWv" target="_blank" rel="noopener noreferrer" class="download-apk-btn">
+		<a href="https://drive.google.com/file/d/1D4mQiN8hJwyDzWUf7tJBzOT4KFHXYa_c/" target="_blank" rel="noopener noreferrer" class="download-apk-btn">
 			📦 {$_('downloadApk')}
 		</a>
 	</div>
