@@ -4,7 +4,6 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
-	import BluetoothPrinter from '$lib/components/BluetoothPrinter.svelte';
 	
 	$: tokenNumber = parseInt($page.params.number);
 	$: sectionId = parseInt($page.url.searchParams.get('section') || '0');
@@ -13,7 +12,6 @@
 	
 	let currentDate = '';
 	let currentTime = '';
-	let bluetoothPrinter;
 
 	onMount(() => {
 		updateDateTime();
@@ -36,29 +34,7 @@
 		// Only run printing in browser
 		if (typeof window === 'undefined') return;
 
-		if (bluetoothPrinter && bluetoothPrinter.print) {
-			const textToPrint = `
-${$_('hospital.title')}
-${$_('tokenPage.subtitle')}
-
-${$_('tokenPage.yourTokenNumber')}: ${tokenNumber}
-
-${$_('tokenPage.section')}: ${section.name}
-${$_('tokenPage.type')}: ${section.type === 'clinic' ? $_('tokenPage.clinic') : $_('tokenPage.laboratory')}
-${$_('tokenPage.feePaid')}: ${section.price} ${$_('currency')}
-
-${currentDate}
-${currentTime}
-
-${$_('queue.positionInQueue')}: ${section.queue.findIndex(t => t.number === tokenNumber) + 1} / ${section.queue.length}
-
-${$_('tokenPage.thankYouMessage')}
-			`;
-			await bluetoothPrinter.print(textToPrint);
-		} else {
-			// Fallback to window.print if bluetooth is not available
-			window.print && window.print();
-		}
+		window.print && window.print();
 	}
 
 	function goHome() {
@@ -133,7 +109,6 @@ ${$_('tokenPage.thankYouMessage')}
 		</div>
 
 		<div class="no-print">
-			<BluetoothPrinter bind:this={bluetoothPrinter} />
 		</div>
 
 		<!-- Footer -->

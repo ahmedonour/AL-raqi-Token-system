@@ -1,0 +1,17 @@
+{
+	"/": [
+		"src/routes/+layout.js",
+		"src/routes/+layout.js"
+	],
+	"/dashboard": [
+		"src/routes/+layout.js"
+	],
+	"/payment/[id]": [
+		"src/routes/payment/[id]/+page.js",
+		"src/routes/+layout.js"
+	],
+	"/token/[number]": [
+		"src/routes/token/[number]/+page.js",
+		"src/routes/+layout.js"
+	]
+}

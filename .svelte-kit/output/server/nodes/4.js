@@ -8,6 +8,6 @@ export const universal = {
   "ssr": false
 };
 export const universal_id = "src/routes/payment/[id]/+page.js";
-export const imports = ["_app/immutable/nodes/4.7rJkBDfH.js","_app/immutable/chunks/CBAgXpWv.js","_app/immutable/chunks/B5JCov3p.js","_app/immutable/chunks/DDENlSmy.js","_app/immutable/chunks/cTkJ8FG3.js","_app/immutable/chunks/DL4xa8HJ.js","_app/immutable/chunks/C1I1J8-N.js","_app/immutable/chunks/BdT7tXd5.js"];
+export const imports = ["_app/immutable/nodes/4.BIMJRNN4.js","_app/immutable/chunks/CBAgXpWv.js","_app/immutable/chunks/B5JCov3p.js","_app/immutable/chunks/BjgYNh5i.js","_app/immutable/chunks/DqdH9-6q.js","_app/immutable/chunks/DL4xa8HJ.js","_app/immutable/chunks/C1I1J8-N.js","_app/immutable/chunks/BdT7tXd5.js"];
 export const stylesheets = ["_app/immutable/assets/4.Dj6xhKBA.css"];
 export const fonts = [];
