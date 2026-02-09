@@ -20,9 +20,35 @@
       "_app/immutable/assets/LanguageSwitcher.D8EfgEJS.css"
     ]
   },
+  "__page.js": {
+    "file": "chunks/_page.js",
+    "name": "_page",
+    "imports": [
+      "_utils2.js",
+      "_ssr.js",
+      "_stores.js",
+      "_stores2.js",
+      "_exports.js",
+      "_utils.js",
+      "_state.svelte.js",
+      "_runtime.js",
+      "_permissions.js",
+      "_escape.js"
+    ],
+    "dynamicImports": [
+      "node_modules/@capacitor-community/bluetooth-le/dist/esm/web.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.YiqZ8XlN.css"
+    ]
+  },
   "_environment.js": {
     "file": "chunks/environment.js",
     "name": "environment"
+  },
+  "_escape.js": {
+    "file": "chunks/escape.js",
+    "name": "escape"
   },
   "_exports.js": {
     "file": "chunks/exports.js",
@@ -42,6 +68,13 @@
       "_ssr.js",
       "_ssr2.js",
       "_environment.js"
+    ]
+  },
+  "_permissions.js": {
+    "file": "chunks/permissions.js",
+    "name": "permissions",
+    "imports": [
+      "_index.js"
     ]
   },
   "_runtime.js": {
@@ -101,6 +134,15 @@
     "file": "chunks/utils2.js",
     "name": "utils"
   },
+  "node_modules/@capacitor-community/bluetooth-le/dist/esm/web.js": {
+    "file": "chunks/web.js",
+    "name": "web",
+    "src": "node_modules/@capacitor-community/bluetooth-le/dist/esm/web.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "__page.js"
+    ]
+  },
   "node_modules/@sveltejs/kit/src/runtime/app/server/remote/index.js": {
     "file": "remote-entry.js",
     "name": "remote-entry",
@@ -120,7 +162,7 @@
       "_utils2.js",
       "_ssr.js",
       "_stores.js",
-      "_state.svelte.js"
+      "_escape.js"
     ]
   },
   "node_modules/@sveltejs/kit/src/runtime/server/index.js": {
@@ -170,10 +212,12 @@
     "imports": [
       "_utils2.js",
       "_ssr.js",
-      "_runtime.js"
+      "_runtime.js",
+      "_permissions.js",
+      "_escape.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.DJC-20MH.css"
+      "_app/immutable/assets/_layout.siS4skXQ.css"
     ]
   },
   "src/routes/+page.svelte": {
@@ -189,7 +233,8 @@
       "_utils.js",
       "_state.svelte.js",
       "_runtime.js",
-      "_LanguageSwitcher.js"
+      "_LanguageSwitcher.js",
+      "_escape.js"
     ],
     "css": [
       "_app/immutable/assets/_page.DHWaMH_v.css"
@@ -208,7 +253,8 @@
       "_utils.js",
       "_state.svelte.js",
       "_LanguageSwitcher.js",
-      "_runtime.js"
+      "_runtime.js",
+      "_escape.js"
     ],
     "css": [
       "_app/immutable/assets/_page.UG0VpS2r.css"
@@ -233,7 +279,8 @@
       "_exports.js",
       "_utils.js",
       "_state.svelte.js",
-      "_runtime.js"
+      "_runtime.js",
+      "_escape.js"
     ],
     "css": [
       "_app/immutable/assets/_page.Dj6xhKBA.css"
@@ -258,10 +305,9 @@
       "_exports.js",
       "_utils.js",
       "_state.svelte.js",
-      "_runtime.js"
-    ],
-    "css": [
-      "_app/immutable/assets/_page.YiqZ8XlN.css"
+      "_runtime.js",
+      "__page.js",
+      "_escape.js"
     ]
   }
 }

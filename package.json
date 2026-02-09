@@ -1,6 +1,6 @@
 {
   "name": "hospital-token-system",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "vite dev --host",
@@ -17,6 +17,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@capacitor-community/bluetooth-le": "^8.1.0",
     "@capacitor/android": "^8.0.2",
     "@capacitor/cli": "^8.0.2",
     "@capacitor/core": "^8.0.2",

@@ -32,5 +32,8 @@ export default defineConfig({
 				]
 			}
 		})
-	]
+	],
+	ssr: {
+		noExternal: ['@capacitor-community/bluetooth-le']
+	}
 });

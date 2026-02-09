@@ -91,6 +91,14 @@ const paymentPage = {
   returnToHome: "← Return to Home"
 };
 const downloadApk = "Download APK";
+const permissions = {
+  modal: {
+    title: "Printer and Bluetooth Permissions",
+    message: "This app needs your permission to use Bluetooth and connect to the printer. This is required for printing tokens.",
+    allow: "Allow",
+    deny: "Deny"
+  }
+};
 const en = {
   hello,
   hospital,
@@ -101,7 +109,8 @@ const en = {
   currency,
   tokenPage,
   paymentPage,
-  downloadApk
+  downloadApk,
+  permissions
 };
 export {
   currency,
@@ -113,6 +122,7 @@ export {
   hello,
   hospital,
   paymentPage,
+  permissions,
   queue,
   tokenPage
 };

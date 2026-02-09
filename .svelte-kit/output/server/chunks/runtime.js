@@ -511,8 +511,8 @@ derived([$locale], () => formatDate);
 derived([$locale], () => formatNumber);
 derived([$locale, $dictionary], () => getJSON);
 export {
-  $locale as $,
-  $format as a,
+  $format as $,
+  $locale as a,
   init as i,
   registerLocaleLoader as r
 };

@@ -2,6 +2,7 @@
 	import '../app.css';
 	import { onMount } from 'svelte';
     import { locale } from 'svelte-i18n';
+    import PermissionModal from '$lib/components/PermissionModal.svelte';
 
 	onMount(() => {
 			// Only register the service worker in production.
@@ -40,5 +41,6 @@
 </script>
 
 {#if $locale}
+    <PermissionModal />
 	<slot />
 {/if}

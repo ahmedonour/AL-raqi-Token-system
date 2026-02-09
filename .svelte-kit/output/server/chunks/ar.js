@@ -91,6 +91,14 @@ const paymentPage = {
   returnToHome: "← العودة للرئيسية"
 };
 const downloadApk = "تحميل التطبيق";
+const permissions = {
+  modal: {
+    title: "أذونات الطابعة والبلوتوث",
+    message: "يحتاج هذا التطبيق إلى إذنك لاستخدام البلوتوث والاتصال بالطابعة. هذا مطلوب لطباعة التذاكر.",
+    allow: "سماح",
+    deny: "رفض"
+  }
+};
 const ar = {
   hello,
   hospital,
@@ -101,7 +109,8 @@ const ar = {
   currency,
   tokenPage,
   paymentPage,
-  downloadApk
+  downloadApk,
+  permissions
 };
 export {
   currency,
@@ -113,6 +122,7 @@ export {
   hello,
   hospital,
   paymentPage,
+  permissions,
   queue,
   tokenPage
 };

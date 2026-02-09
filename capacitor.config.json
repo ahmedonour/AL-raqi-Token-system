@@ -1,5 +1,7 @@
 {
   "appId": "com.ruh.app",
   "appName": "hospital-token-system",
+  "version": "1.0.1",
+  "bundledWebRuntime": false,
   "webDir": "build"
 }
