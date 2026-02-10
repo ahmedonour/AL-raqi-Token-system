@@ -132,7 +132,7 @@
 
 	.token-card {
 		background: white;
-		padding: 1.25rem;
+		padding: .50rem;
 		border-radius: 1.5rem;
 		box-shadow: var(--shadow-lg);
 		width: 100%;
@@ -371,7 +371,7 @@
 		.token-card {
 			box-shadow: none;
 			border-radius: 0;
-			padding: 8px;
+			padding: 4px; /* Reduced from 8px */
 			width: 100%;
 			background: white;
 			color: #000;
@@ -379,14 +379,14 @@
 
 		.print-header h1 {
 			font-size: 15px;
-			margin: 2px 0;
+			margin: 0; /* Reduced from 2px 0 */
 		}
 
-		.subtitle { font-size: 11px; margin-bottom: 4px; }
+		.subtitle { font-size: 11px; margin-bottom: 2px; /* Reduced from 4px */ }
 
 		.hospital-logo { font-size: 20px; }
 
-		.token-number-section { padding: 6px; margin: 6px 0; }
+		.token-number-section { padding: 6px; margin: 4px 0; /* Reduced from 6px 0 */ }
 
 		.label { font-size: 10px; color: #000; }
 
