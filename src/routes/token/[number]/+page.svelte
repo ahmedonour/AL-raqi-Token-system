@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
+	import EscPosEncoder, { toBase64 } from '$lib/escpos.js';
 	
 	$: tokenNumber = parseInt($page.params.number);
 	$: sectionId = parseInt($page.url.searchParams.get('section') || '0');
@@ -31,10 +32,66 @@
 	}
 
 	async function printToken() {
-		// Only run printing in browser
 		if (typeof window === 'undefined') return;
 
-		window.print && window.print();
+		const encoder = new EscPosEncoder();
+
+		encoder.initialize(); // Initialize the printer (resets settings)
+		encoder.alignCenter();
+
+		// Hospital Title
+		encoder.size(0x11); // Double height and width
+		encoder.text($_('hospital.title'));
+		encoder.newline();
+		encoder.size(0); // Normal size
+		encoder.text($_('tokenPage.subtitle'));
+		encoder.newline(2);
+
+		// Token Number
+		encoder.text($_('tokenPage.yourTokenNumber'));
+		encoder.newline();
+		encoder.size(0x22); // Quadruple height and width
+		encoder.text(tokenNumber.toString());
+		encoder.newline(2);
+		encoder.size(0); // Normal size
+
+		// Section Info
+		if (section) {
+			encoder.alignLeft();
+			encoder.text(`${$_('tokenPage.section')}: ${section.name}`);
+			encoder.newline();
+			encoder.text(`${$_('tokenPage.type')}: ${section.type === 'clinic' ? $_('tokenPage.clinic') : $_('tokenPage.laboratory')}`);
+			encoder.newline();
+			encoder.text(`${$_('tokenPage.feePaid')}: ${section.price} ${$_('currency')}`);
+			encoder.newline(2);
+		}
+
+		// Date & Time
+		encoder.alignCenter();
+		encoder.text(currentDate);
+		encoder.newline();
+		encoder.text(currentTime);
+		encoder.newline(2);
+
+		// QR Code for token number
+		encoder.printQRCode(tokenNumber.toString(), 6, 'M'); // data, cellSize, correctionLevel
+		encoder.newline(2);
+
+		// Footer
+		encoder.text($_('tokenPage.thankYouMessage'));
+		encoder.newline();
+		encoder.text($_('hospital.title'));
+		encoder.newline(4); // Add more newlines for paper feed
+		encoder.cut();
+
+		const escposData = encoder.encode();
+		console.log('ESC/POS Data (Uint8Array):', escposData);
+		console.log('ESC/POS Data (Base64):', toBase64(escposData));
+
+		// TODO: Implement actual sending of escposData to a thermal printer
+		// This will likely require a Capacitor plugin for Bluetooth/USB printing
+		// or another platform-specific method.
+		alert('ESC/POS data generated and logged to console. Connect a thermal printer to print.');
 	}
 
 	function goHome() {
@@ -99,16 +156,13 @@
 		<!-- Instructions removed per request -->
 
 		<!-- Action Buttons -->
-		<div class="actions no-print">
+		<div class="actions">
 			<button class="print-btn" on:click={printToken}>
 				🖨️ {$_('tokenPage.printToken')}
 			</button>
 			<button class="home-btn" on:click={goHome}>
 				🏠 {$_('tokenPage.backToHome')}
 			</button>
-		</div>
-
-		<div class="no-print">
 		</div>
 
 		<!-- Footer -->
