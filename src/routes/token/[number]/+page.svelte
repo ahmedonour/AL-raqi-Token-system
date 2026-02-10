@@ -88,10 +88,62 @@
 		console.log('ESC/POS Data (Uint8Array):', escposData);
 		console.log('ESC/POS Data (Base64):', toBase64(escposData));
 
-		// TODO: Implement actual sending of escposData to a thermal printer
-		// This will likely require a Capacitor plugin for Bluetooth/USB printing
-		// or another platform-specific method.
-		alert('ESC/POS data generated and logged to console. Connect a thermal printer to print.');
+		try {
+			await printESCPOS(escposData);
+			alert('Printing command sent successfully!');
+		} catch (error) {
+			console.error('Printing failed:', error);
+			alert('Printing failed: ' + error.message + '. Make sure your printer is connected and supported.');
+		}
+	}
+
+	async function printESCPOS(data) {
+		// Web Bluetooth API requires HTTPS and user gesture.
+		// Service and Characteristic UUIDs may vary by printer model.
+		// These are common UUIDs for serial data transfer.
+		const SERVICE_UUID = '000018f0-0000-1000-8000-00805f9b34fb'; // Example: BLE Serial Port Profile
+		const CHARACTERISTIC_UUID = '00002af1-0000-1000-8000-00805f9b34fb'; // Example: BLE Serial Port Profile characteristic
+
+		if (!navigator.bluetooth) {
+			throw new Error('Web Bluetooth API is not available in this browser.');
+		}
+
+		let device;
+		try {
+			device = await navigator.bluetooth.requestDevice({
+				filters: [{ services: [SERVICE_UUID] }],
+				optionalServices: [SERVICE_UUID] // Specify optional services if they might not be advertised initially
+			});
+			console.log('Connecting to GATT Server...');
+			const server = await device.gatt.connect();
+
+			console.log('Getting Service...');
+			const service = await server.getPrimaryService(SERVICE_UUID);
+
+			console.log('Getting Characteristic...');
+			const characteristic = await service.getCharacteristic(CHARACTERISTIC_UUID);
+
+			console.log('Sending data in chunks...');
+			const chunkSize = 20; // BLE characteristic write without response max 20 bytes
+			for (let i = 0; i < data.length; i += chunkSize) {
+				const chunk = data.slice(i, i + chunkSize);
+				await characteristic.writeValueWithoutResponse(chunk);
+			}
+			console.log('Data sent to printer.');
+		} catch (error) {
+			// Catch user cancellation or other errors
+			if (error.name === 'NotFoundError') {
+				throw new Error('No Bluetooth device selected or found.');
+			} else if (error.name === 'NetworkError') {
+				throw new Error('Bluetooth connection failed. Is the device in range and discoverable?');
+			}
+			throw error; // Re-throw other unexpected errors
+		} finally {
+			if (device && device.gatt.connected) {
+				console.log('Disconnecting from Bluetooth device.');
+				device.gatt.disconnect();
+			}
+		}
 	}
 
 	function goHome() {
@@ -408,68 +460,7 @@
 			font-size: 0.7rem;
 		} */
 
-	@media print {
-		/* Target thermal 80mm receipts: compact layout */
-		@page { size: 80mm auto; margin: 4mm; }
-
-		/* html, body {
-			background: white;
-		} */
-
-		.container {
-			padding: 0;
-			width: 280px; /* approx 80mm at common DPI */
-			margin: 0;
-		}
-
-		.token-card {
-			box-shadow: none;
-			border-radius: 0;
-			padding: 4px; /* Reduced from 8px */
-			width: 100%;
-			background: white;
-			color: #000;
-		}
-
-		.print-header h1 {
-			font-size: 15px;
-			margin: 0; /* Reduced from 2px 0 */
-		}
-
-		.subtitle { font-size: 11px; margin-bottom: 2px; /* Reduced from 4px */ }
-
-		.hospital-logo { font-size: 20px; }
-
-		.token-number-section { padding: 6px; margin: 4px 0; /* Reduced from 6px 0 */ }
-
-		.label { font-size: 10px; color: #000; }
-
-		.token-number {
-			font-size: 32px;
-			font-weight: 800;
-			color: #000;
-			padding: 2px 0;
-		}
-		/* add .instructions here later when you decide on content */
-		.section-info, .datetime-section, .queue-position, .token-footer {
-			padding: 6px 2px;
-			margin: 4px 0;
-			background: transparent;
-			border: none;
-		}
-
-		.info-row { padding: 4px 0; border-bottom: none; font-size: 11px; }
-
-		/* .instructions { font-size: 10px; } */
-
-		.token-footer { font-size: 10px; margin-top: 8px; }
-
-		/* Hide interactive elements when printing */
-		.no-print { display: none !important; }
-
-		/* Ensure compact spacing */
-		* { box-sizing: border-box; }
-	}
+	
 
 	@media (max-width: 768px) {
 		.container {
