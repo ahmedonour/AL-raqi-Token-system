@@ -9,6 +9,6 @@ public class MainActivity extends BridgeActivity {
         super.onCreate(savedInstanceState);
         
         // Register custom plugins
-        registerPlugin(SunmiPrinterPlugin.class);
+        // registerPlugin(SunmiPrinterPlugin.class);
     }
 }
