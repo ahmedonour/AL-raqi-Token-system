@@ -88,7 +88,7 @@
 		console.log('ESC/POS Data (Base64):', toBase64(escposData));
 
 		try {
-			await printESCPOS(escposData);
+			await sendToPrinter(escposData);
 			alert('Printing command sent successfully!');
 		} catch (error) {
 			console.error('Printing failed:', error);
@@ -96,10 +96,40 @@
 		}
 	}
 
-	async function printESCPOS(data) {
+	async function sendToPrinter(data) {
+		// Try Web Bluetooth first
+		try {
+			await connectWebBluetooth(data);
+			return; // If successful, stop here
+		} catch (bluetoothError) {
+			console.warn('Web Bluetooth failed:', bluetoothError);
+			// Fallback to other options
+		}
+
+		// Then try Web USB
+		try {
+			await connectWebUSB(data);
+			return; // If successful, stop here
+		} catch (usbError) {
+			console.warn('Web USB failed:', usbError);
+			// Fallback to other options
+		}
+
+		// Finally, try Web Serial
+		try {
+			await connectWebSerial(data);
+			return; // If successful, stop here
+		} catch (serialError) {
+			console.warn('Web Serial failed:', serialError);
+			// If all fail
+			throw new Error('Could not connect to any printer via Web Bluetooth, Web USB, or Web Serial. ' +
+							'Please ensure your printer is on, discoverable, and supported by one of these APIs.');
+		}
+	}
+
+	async function connectWebBluetooth(data) {
 		// Web Bluetooth API requires HTTPS and user gesture.
 		// Service and Characteristic UUIDs may vary by printer model.
-		// These are common UUIDs for serial data transfer.
 		const SERVICE_UUID = '000018f0-0000-1000-8000-00805f9b34fb'; // Example: BLE Serial Port Profile
 		const CHARACTERISTIC_UUID = '00002af1-0000-1000-8000-00805f9b34fb'; // Example: BLE Serial Port Profile characteristic
 
@@ -113,7 +143,7 @@
 				filters: [{ services: [SERVICE_UUID] }],
 				optionalServices: [SERVICE_UUID] // Specify optional services if they might not be advertised initially
 			});
-			console.log('Connecting to GATT Server...');
+			console.log('Connecting to GATT Server (Bluetooth)...');
 			const server = await device.gatt.connect();
 
 			console.log('Getting Service...');
@@ -128,19 +158,87 @@
 				const chunk = data.slice(i, i + chunkSize);
 				await characteristic.writeValueWithoutResponse(chunk);
 			}
-			console.log('Data sent to printer.');
+			console.log('Data sent to printer via Web Bluetooth.');
 		} catch (error) {
-			// Catch user cancellation or other errors
-			if (error.name === 'NotFoundError') {
-				throw new Error('No Bluetooth device selected or found.');
-			} else if (error.name === 'NetworkError') {
-				throw new Error('Bluetooth connection failed. Is the device in range and discoverable?');
-			}
-			throw error; // Re-throw other unexpected errors
-		} finally {
 			if (device && device.gatt.connected) {
 				console.log('Disconnecting from Bluetooth device.');
 				device.gatt.disconnect();
+			}
+			throw error;
+		} finally {
+			if (device && device.gatt.connected) {
+				device.gatt.disconnect();
+			}
+		}
+	}
+
+	async function connectWebUSB(data) {
+		if (!navigator.usb) {
+			throw new Error('Web USB API is not available in this browser.');
+		}
+
+		let device;
+		try {
+			// Request permission to access a USB device
+			// Use filters to narrow down to common printer VIDs/PIDs or leave empty for all devices
+			// Example filter for Epson: { vendorId: 0x04b8 }
+			device = await navigator.usb.requestDevice({ filters: [] }); // No filters for broader discovery
+			await device.open();
+			if (device.configuration === null) {
+				await device.selectConfiguration(1); // Select the first configuration
+			}
+			await device.claimInterface(0); // Claim the first interface
+
+			// Find an OUT endpoint for writing data
+			const endpoint = device.configuration.interfaces[0].alternate.endpoints.find(e => e.direction === 'out');
+			if (!endpoint) {
+				throw new Error('No OUT endpoint found on the USB device.');
+			}
+
+			console.log('Sending data via Web USB...');
+			const chunkSize = 64; // USB bulk transfer size (common)
+			for (let i = 0; i < data.length; i += chunkSize) {
+				const chunk = data.slice(i, i + chunkSize);
+				await device.transferOut(endpoint.endpointNumber, chunk);
+			}
+			console.log('Data sent to printer via Web USB.');
+		} catch (error) {
+			if (device && device.opened) {
+				await device.close();
+			}
+			throw error;
+		} finally {
+			if (device && device.opened) {
+				await device.close();
+			}
+		}
+	}
+
+	async function connectWebSerial(data) {
+		if (!navigator.serial) {
+			throw new Error('Web Serial API is not available in this browser.');
+		}
+
+		let port;
+		try {
+			port = await navigator.serial.requestPort();
+			await port.open({ baudRate: 9600 }); // Common baud rate for printers, adjust if needed
+
+			const writer = port.writable.getWriter();
+			console.log('Sending data via Web Serial...');
+
+			// Web Serial writable stream expects Uint8Array
+			await writer.write(data);
+			writer.releaseLock();
+			console.log('Data sent to printer via Web Serial.');
+		} catch (error) {
+			if (port && port.opened) {
+				await port.close();
+			}
+			throw error;
+		} finally {
+			if (port && port.opened) {
+				await port.close();
 			}
 		}
 	}
