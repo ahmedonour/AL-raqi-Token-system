@@ -30,6 +30,11 @@ export default defineConfig({
 						purpose: 'any maskable'
 					}
 				]
+			},
+			// Add Workbox configuration to precache index.html
+			workbox: {
+				globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest}'],
+				navigateFallback: 'index.html', // Ensure index.html is the fallback for SPA
 			}
 		})
 	],
