@@ -36,7 +36,6 @@
 
 		const encoder = new EscPosEncoder();
 
-		encoder.initialize(); // Initialize the printer (resets settings)
 		encoder.alignCenter();
 
 		// Hospital Title
