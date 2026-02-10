@@ -187,7 +187,7 @@ export class EscPosEncoder {
 }
 
 // Helper to convert Uint8Array to base64 (useful for bridges expecting base64)
-export function toBase64(u8) {
+function toBase64(u8) {
   let binary = '';
   const len = u8.length;
   for (let i = 0; i < len; i++) {
@@ -197,7 +197,7 @@ export function toBase64(u8) {
 }
 
 // Build a simple receipt using helper commands
-export function buildReceipt({ header = [], lines = [], footer = [] } = {}) {
+function buildReceipt({ header = [], lines = [], footer = [] } = {}) {
   const encoder = new EscPosEncoder();
 
   encoder.alignCenter();
