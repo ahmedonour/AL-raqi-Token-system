@@ -6,7 +6,7 @@ init({
   fallbackLocale: "en",
   initialLocale
 });
-const prerender = true;
+const prerender = false;
 const ssr = false;
 export {
   prerender,
