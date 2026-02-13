@@ -3,5 +3,10 @@
   "appName": "hospital-token-system",
   "version": "1.0.1",
   "bundledWebRuntime": false,
-  "webDir": "build"
+  "webDir": "build",
+  "plugins": {
+    "ScreenOrientation": {
+      "orientation": "portrait"
+    }
+  }
 }

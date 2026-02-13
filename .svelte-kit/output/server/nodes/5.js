@@ -8,6 +8,6 @@ export const universal = {
   "ssr": false
 };
 export const universal_id = "src/routes/token/[number]/+page.js";
-export const imports = ["_app/immutable/nodes/5.D4u46Wru.js","_app/immutable/chunks/CBAgXpWv.js","_app/immutable/chunks/B5JCov3p.js"];
-export const stylesheets = ["_app/immutable/assets/5.DiEuR1Lr.css"];
+export const imports = ["_app/immutable/nodes/5.BzJbtTyS.js","_app/immutable/chunks/CBAgXpWv.js","_app/immutable/chunks/B5JCov3p.js","_app/immutable/chunks/CqP6q6cC.js","_app/immutable/chunks/BiwqF6RM.js","_app/immutable/chunks/DL4xa8HJ.js","_app/immutable/chunks/C1I1J8-N.js","_app/immutable/chunks/BdT7tXd5.js"];
+export const stylesheets = ["_app/immutable/assets/5.OZh1NJTn.css"];
 export const fonts = [];

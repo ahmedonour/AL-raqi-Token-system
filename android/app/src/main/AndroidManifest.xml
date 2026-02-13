@@ -43,6 +43,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
+    <uses-permission android:name="com.sunmi.perm.PRINTER" />
+
     </application>
+
+    <queries>
+        <package android:name="woyou.aidlservice.jiuiv5" />
+    </queries>
 
 </manifest>

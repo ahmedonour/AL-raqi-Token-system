@@ -463,7 +463,68 @@
 			font-weight: 700;
 			line-height: 0.95;
 		}
+	@media print {
+		/* Target thermal 80mm receipts: compact layout */
+		@page { size: 80mm auto; margin: 4mm; }
 
+		/* html, body {
+			background: white;
+		} */
+
+		.container {
+			padding: 0;
+			width: 280px; /* approx 80mm at common DPI */
+			margin: 0;
+		}
+
+		.token-card {
+			box-shadow: none;
+			border-radius: 0;
+			padding: 4px; /* Reduced from 8px */
+			width: 100%;
+			background: white;
+			color: #000;
+		}
+
+		.print-header h1 {
+			font-size: 15px;
+			margin: 0; /* Reduced from 2px 0 */
+		}
+
+		.subtitle { font-size: 11px; margin-bottom: 2px; /* Reduced from 4px */ }
+
+		.hospital-logo { font-size: 20px; }
+
+		.token-number-section { padding: 6px; margin: 4px 0; /* Reduced from 6px 0 */ }
+
+		.label { font-size: 10px; color: #000; }
+
+		.token-number {
+			font-size: 32px;
+			font-weight: 800;
+			color: #000;
+			padding: 2px 0;
+		}
+		/* add .instructions here later when you decide on content */
+		.section-info, .datetime-section, .queue-position, .token-footer {
+			padding: 6px 2px;
+			margin: 4px 0;
+			background: transparent;
+			border: none;
+		}
+
+		.info-row { padding: 4px 0; border-bottom: none; font-size: 11px; }
+
+		/* .instructions { font-size: 10px; } */
+
+		.token-footer { font-size: 10px; margin-top: 8px; }
+
+		/* Hide interactive elements when printing */
+		.no-print { display: none !important; }
+
+		/* Ensure compact spacing */
+		* { box-sizing: border-box; }
+	}
 	/* .instructions {
 		margin: 2rem 0;
 		padding: 1.5rem;
