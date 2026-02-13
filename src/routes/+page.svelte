@@ -22,7 +22,7 @@
 <div class="container">
 	<header>
 		<div class="logo">
-			<div class="logo-icon">🏥</div>
+			<div class="logo-icon">H</div>
 			<div>
 				<h1>{$_('hospital.title')}</h1>
 				<p>{$_('hospital.tokenManagementSystem')}</p>
