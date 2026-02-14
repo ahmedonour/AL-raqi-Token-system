@@ -83,7 +83,7 @@
 	{/if}
 
 	<div class="apk-download-section no-print">
-		<a href="https://drive.google.com/file/d/1_ozuAkyqNeMrtbKfKI85RF9obyBh8bsq/" target="_blank" rel="noopener noreferrer" class="download-apk-btn">
+		<a href="https://drive.google.com/file/d/1Sielvw63UriZ_Bank-3LCv36tzBWSqu1/" target="_blank" rel="noopener noreferrer" class="download-apk-btn">
 			📦 {$_('downloadApk')}
 		</a>
 		<ThermalPrinterExample/>

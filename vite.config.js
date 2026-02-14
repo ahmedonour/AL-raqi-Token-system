@@ -40,5 +40,10 @@ export default defineConfig({
 	],
 	ssr: {
 		noExternal: ['@capacitor-community/bluetooth-le']
+	},
+	build: {
+		rollupOptions: {
+			external: ['capacitor-thermal-printer', '@capacitor-community/bluetooth-le']
+		}
 	}
 });

@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { CapacitorThermalPrinter } from 'capacitor-thermal-printer';
   import { BleClient } from '@capacitor-community/bluetooth-le';
-  import { Permissions } from '@capacitor/core';
+  import { Capacitor } from '@capacitor/core'; // Import Capacitor global object
 
   let printStatus = 'Idle';
   let deviceAddress = ''; // Replace with your printer's address or discovered device ID
@@ -13,22 +13,24 @@
   async function checkAndRequestBluetoothPermissions() {
     printStatus = 'Checking Bluetooth permissions...';
     try {
+      const PermissionsPlugin = Capacitor.Plugins.Permissions; // Access Permissions via Capacitor.Plugins.Permissions
+
       // Check BLUETOOTH_SCAN (Android 12+)
-      let scanStatus = await Permissions.check({ name: 'bluetoothScan' });
+      let scanStatus = await PermissionsPlugin.check({ name: 'bluetoothScan' });
       if (scanStatus.state !== 'granted') {
-        scanStatus = await Permissions.request({ name: 'bluetoothScan' });
+        scanStatus = await PermissionsPlugin.request({ name: 'bluetoothScan' });
       }
 
       // Check BLUETOOTH_CONNECT (Android 12+)
-      let connectStatus = await Permissions.check({ name: 'bluetoothConnect' });
+      let connectStatus = await PermissionsPlugin.check({ name: 'bluetoothConnect' });
       if (connectStatus.state !== 'granted') {
-        connectStatus = await Permissions.request({ name: 'bluetoothConnect' });
+        connectStatus = await PermissionsPlugin.request({ name: 'bluetoothConnect' });
       }
 
       // Check ACCESS_FINE_LOCATION (for older Android or when BLUETOOTH_SCAN is not enough)
-      let locationStatus = await Permissions.check({ name: 'location' });
+      let locationStatus = await PermissionsPlugin.check({ name: 'location' });
       if (locationStatus.state !== 'granted') {
-         locationStatus = await Permissions.request({ name: 'location' });
+         locationStatus = await PermissionsPlugin.request({ name: 'location' });
       }
 
       if (scanStatus.state === 'granted' && connectStatus.state === 'granted' && locationStatus.state === 'granted') {
@@ -119,24 +121,16 @@
         // .image('https://raw.githubusercontent.com/Malik12tree/capacitor-thermal-printer/main/assets/Logo-Black.png') // Uncomment to add image, needs internet perm
         .bold()
         .underline()
-        .text('The amazing store
-')
+        .text('The amazing store')
         .doubleWidth()
-        .text('RECEIPT
-')
-        .text('--------------------------------
-')
+        .text('RECEIPT')
+        .text('--------------------------------')
         .align('left')
-        .text('Item 1         $10.00
-')
-        .text('Item 2         $20.50
-')
-        .text('--------------------------------
-')
-        .text('Total:         $30.50
-')
-        .text('Thank you for your purchase!
-')
+        .text('Item 1         $10.00')
+        .text('Item 2         $20.50')
+        .text('--------------------------------')
+        .text('Total:         $30.50')
+        .text('Thank you for your purchase!')
         .feed(3) // Feed paper 3 lines
         .cut() // Cut the paper
         .end();
