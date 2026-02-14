@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { _ } from 'svelte-i18n'; // Import the $_ function
 	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte'; // Import the LanguageSwitcher component
+	import ThermalPrinterExample from '$lib/components/ThermalPrinterExample.svelte';
 
 	let filter = 'all';
 
@@ -82,9 +83,10 @@
 	{/if}
 
 	<div class="apk-download-section no-print">
-		<a href="https://drive.google.com/file/d/1XO4WPY_PHlduq5NqCSvg8UbYYyuAGvW-/" target="_blank" rel="noopener noreferrer" class="download-apk-btn">
+		<a href="https://drive.google.com/file/d/1_ozuAkyqNeMrtbKfKI85RF9obyBh8bsq/" target="_blank" rel="noopener noreferrer" class="download-apk-btn">
 			📦 {$_('downloadApk')}
 		</a>
+		<ThermalPrinterExample/>
 	</div>
 </div>
 
